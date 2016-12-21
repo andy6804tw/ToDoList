@@ -3,6 +3,8 @@ package com.lk.todolist;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +17,15 @@ import android.widget.Toast;
  */
 public class HomeFragment extends Fragment {
 
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    RecyclerView.Adapter adapter;
     private FlowLayout mFlowLayout;
 
     private String[] mVals =new String[]{
             "Hello","Android","Welcome","Music"
     };
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -33,6 +39,11 @@ public class HomeFragment extends Fragment {
         final View view=inflater.inflate(R.layout.fragment_home, container, false);
         mFlowLayout = (FlowLayout) view.findViewById(R.id.flowLayout);
         initData();
+        recyclerView =(RecyclerView) view.findViewById(R.id.recycler_view);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new RecyclerAdapter();
+        recyclerView.setAdapter(adapter);
 
 
         return view;

@@ -6,13 +6,33 @@
     tools:context="com.lk.todolist.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <com.lk.todolist.FlowLayout
-        android:id="@+id/flowLayout"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#E5E5F5"
-        android:padding="10dp">
-    </com.lk.todolist.FlowLayout>
+        android:layout_height="match_parent">
+
+        <com.lk.todolist.FlowLayout
+            android:id="@+id/flowLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#E5E5F5"
+            android:padding="10dp">
+        </com.lk.todolist.FlowLayout>
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="false"
+            tools:context=".MainActivity" >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
