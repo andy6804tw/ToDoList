@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class AddEvent extends AppCompatActivity {
 
     DBAccess access;
@@ -18,6 +20,7 @@ public class AddEvent extends AppCompatActivity {
     long id;//資料ID
     ListView listView;
     SimpleCursorAdapter adapter=null;
+    public static ArrayList<String> title,date,time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class AddEvent extends AppCompatActivity {
         }
     });
 
+
 }
 
     @Override
@@ -49,6 +53,7 @@ public class AddEvent extends AppCompatActivity {
             listView.setAdapter(adapter);
         }else {
             adapter.changeCursor(c);
+            listView.setAdapter(adapter);
         }
 
         super.onResume();

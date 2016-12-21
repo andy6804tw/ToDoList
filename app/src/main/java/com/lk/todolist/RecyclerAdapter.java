@@ -69,15 +69,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder viewHolder,int i) {
 
-        viewHolder.tvTitle.setText(Title[i]);
-        viewHolder.tvDate.setText(Date[i]);
-        viewHolder.tvTime.setText(Time[i]);
+        viewHolder.tvTitle.setText(MainActivity.title.get(i));
+        viewHolder.tvDate.setText(MainActivity.date.get(i));
+        viewHolder.tvTime.setText(MainActivity.time.get(i));
 
     }
 
     @Override
     public int getItemCount() {
-        return Time.length;
+        return MainActivity.time.size();
     }
 
 }
