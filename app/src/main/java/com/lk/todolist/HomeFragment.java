@@ -1,7 +1,9 @@
 package com.lk.todolist;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +23,7 @@ public class HomeFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;
     private FlowLayout mFlowLayout;
+    private FloatingActionButton fab;
 
     private String[] mVals =new String[]{
             "Hello","Android","Welcome","Music"
@@ -44,6 +47,13 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RecyclerAdapter();
         recyclerView.setAdapter(adapter);
+        fab=(FloatingActionButton)view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),AddEvent.class));
+            }
+        });
 
 
         return view;
