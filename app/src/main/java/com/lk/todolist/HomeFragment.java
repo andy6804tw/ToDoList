@@ -27,6 +27,7 @@ public class HomeFragment extends Fragment {
     private FlowLayout mFlowLayout;
     private FloatingActionButton fab;
     public  static ArrayList<String>list;
+    public  static ArrayList<Integer>index;
     private String[] mVals =new String[]{
             "吃飯","開會","Welcome","Music"
     };
@@ -73,11 +74,13 @@ public class HomeFragment extends Fragment {
                 public void onClick(View v) {
                     Toast.makeText(getActivity(), tv.getText().toString(), Toast.LENGTH_SHORT).show();
                     list=new ArrayList<String>();
+                    index=new ArrayList<Integer>();
                     for(int i=0;i<MainActivity.title.size();i++){
                         if(MainActivity.title.get(i).equals(tv.getText().toString())){
                             list.add(MainActivity.title.get(i));
+                            index.add(i);
                         }
-                    }Toast.makeText(getActivity(), list.size()+"", Toast.LENGTH_SHORT).show();
+                    }
                     adapter = new RecyclerAdapter(list);
                     recyclerView.setAdapter(adapter);
                 }

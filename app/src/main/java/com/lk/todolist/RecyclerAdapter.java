@@ -6,7 +6,6 @@ package com.lk.todolist;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     String Title[]={"Title1","Title2","Title3","Title4","Title5"};
     String Date[]={"2016/12/3","2016/12/3","2016/12/3","2016/12/3","2016/12/3"};
     String Time[]={"13:15","14:20","5:20","14:20","12:00"};
+    static int count=0;
     public RecyclerAdapter(){
 
     }
@@ -69,21 +69,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder viewHolder,int i) {
 
+
         if(list.size()==0){
             viewHolder.tvTitle.setText(MainActivity.title.get(i));
             viewHolder.tvDate.setText(MainActivity.date.get(i));
             viewHolder.tvTime.setText(MainActivity.time.get(i));
         }else{
-            for(int j=i;j<MainActivity.title.size();j++){
-                Log.e("Data2",j+" "+MainActivity.title.get(j));
-                if(list.get(i).equals(MainActivity.title.get(j))){
-                    Log.d("Data",j+"");
-                    viewHolder.tvTitle.setText(MainActivity.title.get(j)+" "+j+" "+i);
-                    viewHolder.tvDate.setText(MainActivity.date.get(j));
-                    viewHolder.tvTime.setText(MainActivity.time.get(j));
-                    break;
-                }
-            }
+            viewHolder.tvTitle.setText(MainActivity.title.get(HomeFragment.index.get(i)));
+            viewHolder.tvDate.setText(MainActivity.date.get(HomeFragment.index.get(i)));
+            viewHolder.tvTime.setText(MainActivity.time.get(HomeFragment.index.get(i)));
         }
 
     }
