@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,9 +26,9 @@ public class HomeFragment extends Fragment {
     RecyclerView.Adapter adapter;
     private FlowLayout mFlowLayout;
     private FloatingActionButton fab;
-
+    public  static ArrayList<String>list;
     private String[] mVals =new String[]{
-            "Hello","Android","Welcome","Music"
+            "吃飯","開會","Welcome","Music"
     };
 
 
@@ -70,6 +72,14 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getActivity(), tv.getText().toString(), Toast.LENGTH_SHORT).show();
+                    list=new ArrayList<String>();
+                    for(int i=0;i<MainActivity.title.size();i++){
+                        if(MainActivity.title.get(i).equals(tv.getText().toString())){
+                            list.add(MainActivity.title.get(i));
+                        }
+                    }Toast.makeText(getActivity(), list.size()+"", Toast.LENGTH_SHORT).show();
+                    adapter = new RecyclerAdapter(list);
+                    recyclerView.setAdapter(adapter);
                 }
             });
 
