@@ -6,14 +6,16 @@ package com.lk.todolist;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements View.OnClickListener{
     ArrayList<String>list=new ArrayList<String>();
     String Title[]={"Title1","Title2","Title3","Title4","Title5"};
     String Date[]={"2016/12/3","2016/12/3","2016/12/3","2016/12/3","2016/12/3"};
@@ -63,6 +65,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             View v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.card_layout, viewGroup, false);
             ViewHolder viewHolder = new ViewHolder(v);
+
+        // 对每一个cell注册点击事件
+        v.setOnClickListener(this);
+
+        // 取消viewHolder的重用机制（很重要）
+        viewHolder.setIsRecyclable(false);
+
             return viewHolder;
     }
 
@@ -88,6 +97,35 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             return MainActivity.time.size();
         else
             return list.size();
+    }
+    @Override
+    public void onClick(View v) {
+
+        int index;
+
+        LinearLayout linearLayout = (LinearLayout)v.findViewById(R.id.linearLayout);
+        View subView = LayoutInflater.from(v.getContext()).inflate(R.layout.card_add_layout, (ViewGroup)v, false);
+
+        // 利用cell控件的Tag值来标记cell是否被点击过,因为已经将重用机制取消，cell退出当前界面时就会被销毁，Tag值也就不存在了。
+        // 如果不取消重用，那么将会出现未曾点击就已经添加子视图的效果，再点击的时候会继续添加而不是收回。
+        if (v.findViewById(R.id.linearLayout).getTag() == null) {
+            index = 1;
+        } else {
+            index = (int)v.findViewById(R.id.linearLayout).getTag();
+        }
+
+        Log.i("yichu", "onClick: " + index);
+
+        // close状态: 添加视图
+        if (index == 1) {
+            linearLayout.addView(subView);
+            subView.setTag(1000);
+            v.findViewById(R.id.linearLayout).setTag(2);
+        } else {
+            // open状态： 移除视图
+            linearLayout.removeView(v.findViewWithTag(1000));
+            v.findViewById(R.id.linearLayout).setTag(1);
+        }
     }
 
 }
