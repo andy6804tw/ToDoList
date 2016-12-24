@@ -15,7 +15,7 @@
             android:id="@+id/flowLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#E5E5F5"
+            android:background="#50e5e5f5"
             android:padding="10dp">
         </com.lk.todolist.FlowLayout>
 
