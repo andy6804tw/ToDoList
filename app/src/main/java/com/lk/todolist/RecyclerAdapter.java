@@ -104,7 +104,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         //設定卡片選項item option
         viewHolder.tvOption.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 //Display option menu
 
                 PopupMenu popupMenu = new PopupMenu(mContext, viewHolder.tvOption);
@@ -113,20 +113,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
 
+                        DBAccess access =new DBAccess(mContext,"schedule",null,1);
+                        int id=0;
+                        Cursor c=access.getData(null, null);//資料查詢，無條件(按照資料放入順序排列、原始順序)
+                        c.moveToFirst();
+                        z://找出原始id順序
+                        for(id=1;id<=c.getCount();id++){
+                            if(c.getString(1).equals(MainActivity.title.get(i))&&c.getString(2).equals(MainActivity.date.get(i))&&c.getString(3).equals(MainActivity.time.get(i))){
+                                //Toast.makeText(mContext, "Saved"+" "+id, Toast.LENGTH_LONG).show();
+                                id=Integer.parseInt(c.getString(0));//取得id值(偷吃步作法) *若曾經刪除也算一筆紀錄 所以不能用Cursor的索引值當id
+                                break z;
+                            }
+                            c.moveToNext();
+                        }
+
                         switch (item.getItemId()) {
                             case R.id.mnu_item_modify://修改
-                                int id=0;
-                                DBAccess access =new DBAccess(mContext,"schedule",null,1);
-                                Cursor c=access.getData(null, null);//資料查詢，無條件(按照資料放入順序排列、原始順序)
-                                c.moveToFirst();
-                                z://找出原始id順序
-                                for(id=1;id<=c.getCount();id++){
-                                    if(c.getString(1).equals(MainActivity.title.get(i))&&c.getString(2).equals(MainActivity.date.get(i))&&c.getString(3).equals(MainActivity.time.get(i))){
-                                        Toast.makeText(mContext, "Saved"+" "+id, Toast.LENGTH_LONG).show();
-                                        break z;
-                                    }
-                                    c.moveToNext();
-                                }
                                 Toast.makeText(mContext, "modify"+" "+id, Toast.LENGTH_LONG).show();
                                     Intent intent=new Intent();
                                     intent.setClass(mContext, modify.class); //設定新活動視窗類別
@@ -137,9 +139,35 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                 break;
                             case R.id.mnu_item_delete://刪除
                                 //Delete item
-                                //listItems.remove(position);
-                                //notifyDataSetChanged();
-                                Toast.makeText(mContext, "Deleted", Toast.LENGTH_LONG).show();
+                                access.delete(Integer.toString(id));
+                                final String title=MainActivity.title.get(i);
+                                final String date=MainActivity.date.get(i);
+                                final String time=MainActivity.time.get(i);
+                                MainActivity.title.remove(i);
+                                MainActivity.date.remove(i);
+                                MainActivity.time.remove(i);
+                                notifyDataSetChanged();
+                                Toast.makeText(mContext, "Deleted "+i+" "+MainActivity.title.get(i), Toast.LENGTH_LONG).show();
+                                Snackbar.make(v, "Deleted " ,
+                                        Snackbar.LENGTH_LONG)
+                                        .setAction("取消刪除", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                RecyclerView recyclerView;
+                                                RecyclerView.Adapter adapter;
+                                                MainActivity.title.add(title);
+                                                MainActivity.date.add(date);
+                                                MainActivity.time.add(time);
+                                                DBAccess access=new DBAccess(mContext,"schedule",null,1);
+                                                access.add(title,date,date);
+                                                LayoutInflater inflater = LayoutInflater.from(mContext);
+                                                final View view=inflater.inflate(R.layout.fragment_home, null, false);
+                                                adapter = new RecyclerAdapter(list,mContext);
+                                                recyclerView =(RecyclerView) view.findViewById(R.id.recycler_view);
+                                                recyclerView.setAdapter(adapter);
+                                                notifyDataSetChanged();
+                                            }
+                                        }).show();
                                 break;
                             default:
                                 break;
@@ -152,7 +180,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         });
 
     }
-
 
     @Override
     public int getItemCount() {
