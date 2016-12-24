@@ -4,47 +4,55 @@ package com.lk.todolist;
  * Created by andy6804tw on 2016/12/21.
  */
 
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements View.OnClickListener{
-    ArrayList<String>list=new ArrayList<String>();
-    String Title[]={"Title1","Title2","Title3","Title4","Title5"};
-    String Date[]={"2016/12/3","2016/12/3","2016/12/3","2016/12/3","2016/12/3"};
-    String Time[]={"13:15","14:20","5:20","14:20","12:00"};
-    static int count=0;
-    public RecyclerAdapter(){
 
+    ArrayList<String>list=new ArrayList<String>();
+
+    private  static Context mContext;//給卡片選項用的HomeFragment.class
+    public RecyclerAdapter(Context c){
+        mContext=c;
     }
-    public RecyclerAdapter(ArrayList<String>list){
+    public RecyclerAdapter(ArrayList<String>list,Context c){
         this.list=list;
+        mContext=c;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
 
-        public TextView tvTitle,tvDate,tvTime;
+        public TextView tvTitle,tvDate,tvTime,tvOption;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvTitle = (TextView)itemView.findViewById(R.id.tvTitle);
             tvDate = (TextView)itemView.findViewById(R.id.tvDate);
             tvTime =(TextView)itemView.findViewById(R.id.tvTime);
+            tvOption =(TextView)itemView.findViewById(R.id.tvOption);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     int position = getAdapterPosition();
 
-                    Snackbar.make(v, "Click detected on item " + position,
+                    Snackbar.make(v, "Click detected on item " + position+" "+getItemId()+".",
                             Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
@@ -53,7 +61,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    return false;
+                    int position = getAdapterPosition();
+
+                    Snackbar.make(v, "Click detected on item " + position,
+                            Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    return true;
                 }
             });
         }
@@ -76,7 +89,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder,int i) {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
 
 
         if(list.size()==0){
@@ -88,8 +101,58 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             viewHolder.tvDate.setText(MainActivity.date.get(HomeFragment.index.get(i)));
             viewHolder.tvTime.setText(MainActivity.time.get(HomeFragment.index.get(i)));
         }
+        //設定卡片選項item option
+        viewHolder.tvOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Display option menu
+
+                PopupMenu popupMenu = new PopupMenu(mContext, viewHolder.tvOption);
+                popupMenu.inflate(R.menu.card_option_menu);//畫一個menu
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        switch (item.getItemId()) {
+                            case R.id.mnu_item_modify://修改
+                                int id=0;
+                                DBAccess access =new DBAccess(mContext,"schedule",null,1);
+                                Cursor c=access.getData(null, null);//資料查詢，無條件(按照資料放入順序排列、原始順序)
+                                c.moveToFirst();
+                                z://找出原始id順序
+                                for(id=1;id<=c.getCount();id++){
+                                    if(c.getString(1).equals(MainActivity.title.get(i))&&c.getString(2).equals(MainActivity.date.get(i))&&c.getString(3).equals(MainActivity.time.get(i))){
+                                        Toast.makeText(mContext, "Saved"+" "+id, Toast.LENGTH_LONG).show();
+                                        break z;
+                                    }
+                                    c.moveToNext();
+                                }
+                                Toast.makeText(mContext, "modify"+" "+id, Toast.LENGTH_LONG).show();
+                                    Intent intent=new Intent();
+                                    intent.setClass(mContext, modify.class); //設定新活動視窗類別
+                                    Bundle bundle=new Bundle();
+                                    bundle.putString("id",Integer.toString(id));//將id傳遞到新的活動視窗中 從1開始?
+                                    intent.putExtras(bundle);
+                                    mContext.startActivity(intent); //開啟新的活動視窗
+                                break;
+                            case R.id.mnu_item_delete://刪除
+                                //Delete item
+                                //listItems.remove(position);
+                                //notifyDataSetChanged();
+                                Toast.makeText(mContext, "Deleted", Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
 
     }
+
 
     @Override
     public int getItemCount() {

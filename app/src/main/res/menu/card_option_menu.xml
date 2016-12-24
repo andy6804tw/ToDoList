@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/mnu_item_modify" android:title="修改" />
+    <item android:id="@+id/mnu_item_delete" android:title="刪除" />
+</menu>

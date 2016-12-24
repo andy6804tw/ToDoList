@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         recyclerView =(RecyclerView) view.findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecyclerAdapter();
+        adapter = new RecyclerAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         fab=(FloatingActionButton)view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment {
                             index.add(i);
                         }
                     }
-                    adapter = new RecyclerAdapter(list);
+                    adapter = new RecyclerAdapter(list,getActivity());
                     recyclerView.setAdapter(adapter);
                 }
             });
