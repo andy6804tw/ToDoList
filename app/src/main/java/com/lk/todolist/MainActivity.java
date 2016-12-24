@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         toolbar=(Toolbar)findViewById(R.id.app_bar);
+        toolbar.setTitle("代辦事項");
         setSupportActionBar(toolbar);
         //更改狀態欄顏色
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
