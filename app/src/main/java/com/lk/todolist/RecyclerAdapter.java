@@ -5,10 +5,12 @@ package com.lk.todolist;
  */
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -147,25 +149,41 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                 MainActivity.date.remove(i);
                                 MainActivity.time.remove(i);
                                 notifyDataSetChanged();
-                                Toast.makeText(mContext, "Deleted "+i+" "+MainActivity.title.get(i), Toast.LENGTH_LONG).show();
-                                Snackbar.make(v, "Deleted " ,
+                                //Toast.makeText(mContext, "Deleted "+i+" "+MainActivity.title.get(i), Toast.LENGTH_LONG).show();
+                                Snackbar.make(v, "刪除成功" ,
                                         Snackbar.LENGTH_LONG)
                                         .setAction("取消刪除", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                RecyclerView recyclerView;
-                                                RecyclerView.Adapter adapter;
-                                                MainActivity.title.add(title);
-                                                MainActivity.date.add(date);
-                                                MainActivity.time.add(time);
-                                                DBAccess access=new DBAccess(mContext,"schedule",null,1);
-                                                access.add(title,date,date);
-                                                LayoutInflater inflater = LayoutInflater.from(mContext);
-                                                final View view=inflater.inflate(R.layout.fragment_home, null, false);
-                                                adapter = new RecyclerAdapter(list,mContext);
-                                                recyclerView =(RecyclerView) view.findViewById(R.id.recycler_view);
-                                                recyclerView.setAdapter(adapter);
-                                                notifyDataSetChanged();
+
+                                                AlertDialog.Builder dialog=new AlertDialog.Builder(mContext);
+                                                dialog.setMessage("確定復原?");
+                                                dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        RecyclerView recyclerView;
+                                                        RecyclerView.Adapter adapter;
+                                                        MainActivity.title.add(i,title);//放回去原本的位置第一個參數i代表放入的索引值
+                                                        MainActivity.date.add(i,date);
+                                                        MainActivity.time.add(i,time);
+                                                        DBAccess access=new DBAccess(mContext,"schedule",null,1);
+                                                        access.add(title,date,date);
+                                                        LayoutInflater inflater = LayoutInflater.from(mContext);
+                                                        final View view=inflater.inflate(R.layout.fragment_home, null, false);
+                                                        adapter = new RecyclerAdapter(list,mContext);
+                                                        recyclerView =(RecyclerView) view.findViewById(R.id.recycler_view);
+                                                        recyclerView.setAdapter(adapter);
+                                                        notifyDataSetChanged();
+                                                    }
+                                                });
+                                                dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                                dialog.show();
+
                                             }
                                         }).show();
                                 break;
