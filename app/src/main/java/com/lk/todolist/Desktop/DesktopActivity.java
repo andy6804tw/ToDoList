@@ -36,6 +36,7 @@ public class DesktopActivity extends AppCompatActivity {
                 if(position==0){
                     startActivity(new Intent(DesktopActivity.this, MainActivity.class));
                 }
+
             }
         });
     }

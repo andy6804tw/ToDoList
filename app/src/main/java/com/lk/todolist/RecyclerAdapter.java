@@ -168,12 +168,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                                         MainActivity.time.add(i,time);
                                                         DBAccess access=new DBAccess(mContext,"schedule",null,1);
                                                         access.add(title,date,date);
-                                                        LayoutInflater inflater = LayoutInflater.from(mContext);
+                                                       /* LayoutInflater inflater = LayoutInflater.from(mContext);
                                                         final View view=inflater.inflate(R.layout.fragment_home, null, false);
                                                         adapter = new RecyclerAdapter(list,mContext);
                                                         recyclerView =(RecyclerView) view.findViewById(R.id.recycler_view);
-                                                        recyclerView.setAdapter(adapter);
-                                                        notifyDataSetChanged();
+                                                        recyclerView.setAdapter(adapter);*/
+                                                        notifyDataSetChanged();//監聽list是否有變動
                                                     }
                                                 });
                                                 dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -234,6 +234,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             linearLayout.removeView(v.findViewWithTag(1000));
             v.findViewById(R.id.linearLayout).setTag(1);
         }
+    }
+
+    public void setFilter(ArrayList<String>Mylist){
+
+       // list.addAll(this.list);
+        list=Mylist;
+        notifyDataSetChanged();
+
     }
 
 }
