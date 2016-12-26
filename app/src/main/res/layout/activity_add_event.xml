@@ -34,15 +34,18 @@ android:orientation="vertical">
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/edtTitle"
-            android:hint="請輸入標題..." />
+            android:hint="請輸入標題..."
+            android:layout_weight="1" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/edtDate"
-            android:hint="請輸入日期..." />
+            android:id="@+id/edtCategory"
+            android:hint="請輸入類別...."
+            android:layout_weight="1" />
+
     </TableRow>
 
     <TableRow
@@ -53,21 +56,26 @@ android:orientation="vertical">
         android:layout_marginTop="63dp"
         android:id="@+id/tab2">
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/edtTime"
-            android:hint="請輸入時間..." />
+            android:layout_alignBottom="@+id/tab2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/tvDate"
+            android:hint="請選擇日期..."
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:layout_weight="1" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/edtCategory"
-            android:hint="請輸入類別...." />
+            android:id="@+id/tvTime"
+            android:textColor="#000000"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:hint="請輸入時間..." />
     </TableRow>
 
     <Button
@@ -96,7 +104,8 @@ android:orientation="vertical">
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/edtDesc"
-            android:hint="請輸入描述..." />
+            android:hint="請輸入描述..."
+            android:layout_weight="1" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -104,7 +113,8 @@ android:orientation="vertical">
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/edtStatue"
-            android:hint="請輸入狀態...." />
+            android:hint="請輸入狀態...."
+            android:layout_weight="1" />
     </TableRow>
 
 </RelativeLayout>

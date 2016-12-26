@@ -23,8 +23,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static android.R.attr.id;
-
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements View.OnClickListener{
 
     ArrayList<DataModel>list=new ArrayList<DataModel>();
@@ -149,7 +147,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                 break;
                             case R.id.mnu_item_delete://刪除
                                 //Delete item
-                                access.delete(Integer.toString(id));
+                                access.delete(MainActivity.list.get(i).getId());
                                /* final String title=MainActivity.title.get(i);
                                 final String date=MainActivity.date.get(i);
                                 final String time=MainActivity.time.get(i);
