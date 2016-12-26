@@ -7,7 +7,6 @@ package com.lk.todolist;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -24,15 +23,17 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.R.attr.id;
+
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements View.OnClickListener{
 
-    ArrayList<String>list=new ArrayList<String>();
+    ArrayList<DataModel>list=new ArrayList<DataModel>();
 
     private  static Context mContext;//給卡片選項用的HomeFragment.class
     public RecyclerAdapter(Context c){
         mContext=c;
     }
-    public RecyclerAdapter(ArrayList<String>list,Context c){
+    public RecyclerAdapter(ArrayList<DataModel>list,Context c){
         this.list=list;
         mContext=c;
     }
@@ -95,13 +96,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
         if(list.size()==0){
-            viewHolder.tvTitle.setText(MainActivity.title.get(i));
+            /*viewHolder.tvTitle.setText(MainActivity.title.get(i));
             viewHolder.tvDate.setText(MainActivity.date.get(i));
-            viewHolder.tvTime.setText(MainActivity.time.get(i));
+            viewHolder.tvTime.setText(MainActivity.time.get(i));*/
+            viewHolder.tvTitle.setText(MainActivity.list.get(i).getTitle());
+            viewHolder.tvDate.setText(MainActivity.list.get(i).getDate());
+            viewHolder.tvTime.setText(MainActivity.list.get(i).getTime());
+
         }else{
-            viewHolder.tvTitle.setText(MainActivity.title.get(HomeFragment.index.get(i)));
+            /*viewHolder.tvTitle.setText(MainActivity.title.get(HomeFragment.index.get(i)));
             viewHolder.tvDate.setText(MainActivity.date.get(HomeFragment.index.get(i)));
-            viewHolder.tvTime.setText(MainActivity.time.get(HomeFragment.index.get(i)));
+            viewHolder.tvTime.setText(MainActivity.time.get(HomeFragment.index.get(i)));*/
+            viewHolder.tvTitle.setText(list.get(i).getTitle());
+            viewHolder.tvDate.setText(list.get(i).getDate());
+            viewHolder.tvTime.setText(list.get(i).getTime());
         }
         //設定卡片選項item option
         viewHolder.tvOption.setOnClickListener(new View.OnClickListener() {
@@ -116,38 +124,40 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     public boolean onMenuItemClick(MenuItem item) {
 
                         DBAccess access =new DBAccess(mContext,"schedule",null,1);
-                        int id=0;
+                        /*int id=0;
                         Cursor c=access.getData(null, null);//資料查詢，無條件(按照資料放入順序排列、原始順序)
                         c.moveToFirst();
                         z://找出原始id順序
                         for(id=1;id<=c.getCount();id++){
                             if(c.getString(1).equals(MainActivity.title.get(i))&&c.getString(2).equals(MainActivity.date.get(i))&&c.getString(3).equals(MainActivity.time.get(i))){
-                                //Toast.makeText(mContext, "Saved"+" "+id, Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "Saved"+" "+id, Toast.LENGTH_LONG).show();
                                 id=Integer.parseInt(c.getString(0));//取得id值(偷吃步作法) *若曾經刪除也算一筆紀錄 所以不能用Cursor的索引值當id
                                 break z;
                             }
                             c.moveToNext();
-                        }
+                        }*/
 
                         switch (item.getItemId()) {
                             case R.id.mnu_item_modify://修改
-                                Toast.makeText(mContext, "modify"+" "+id, Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "modify"+" "+MainActivity.list.get(i).getId(), Toast.LENGTH_LONG).show();
                                     Intent intent=new Intent();
                                     intent.setClass(mContext, modify.class); //設定新活動視窗類別
                                     Bundle bundle=new Bundle();
-                                    bundle.putString("id",Integer.toString(id));//將id傳遞到新的活動視窗中 從1開始?
+                                    bundle.putString("id",MainActivity.list.get(i).getId());//將id傳遞到新的活動視窗中 從1開始?
                                     intent.putExtras(bundle);
                                     mContext.startActivity(intent); //開啟新的活動視窗
                                 break;
                             case R.id.mnu_item_delete://刪除
                                 //Delete item
                                 access.delete(Integer.toString(id));
-                                final String title=MainActivity.title.get(i);
+                               /* final String title=MainActivity.title.get(i);
                                 final String date=MainActivity.date.get(i);
                                 final String time=MainActivity.time.get(i);
                                 MainActivity.title.remove(i);
                                 MainActivity.date.remove(i);
-                                MainActivity.time.remove(i);
+                                MainActivity.time.remove(i);*/
+                                final DataModel remove_data=MainActivity.list.get(i);
+                                MainActivity.list.remove(i);
                                 notifyDataSetChanged();
                                 //Toast.makeText(mContext, "Deleted "+i+" "+MainActivity.title.get(i), Toast.LENGTH_LONG).show();
                                 Snackbar.make(v, "刪除成功" ,
@@ -163,16 +173,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         RecyclerView recyclerView;
                                                         RecyclerView.Adapter adapter;
-                                                        MainActivity.title.add(i,title);//放回去原本的位置第一個參數i代表放入的索引值
+                                                       /* MainActivity.title.add(i,title);//放回去原本的位置第一個參數i代表放入的索引值
                                                         MainActivity.date.add(i,date);
                                                         MainActivity.time.add(i,time);
                                                         DBAccess access=new DBAccess(mContext,"schedule",null,1);
-                                                        access.add(title,date,date);
-                                                       /* LayoutInflater inflater = LayoutInflater.from(mContext);
-                                                        final View view=inflater.inflate(R.layout.fragment_home, null, false);
-                                                        adapter = new RecyclerAdapter(list,mContext);
-                                                        recyclerView =(RecyclerView) view.findViewById(R.id.recycler_view);
-                                                        recyclerView.setAdapter(adapter);*/
+                                                        access.add(title,date,date);*/
+                                                        MainActivity.list.add(i,remove_data);
+                                                        DBAccess access=new DBAccess(mContext,"schedule",null,1);
+                                                        access.add(remove_data.getTitle(),remove_data.getDate(),remove_data.getTime());
+
                                                         notifyDataSetChanged();//監聽list是否有變動
                                                     }
                                                 });
@@ -202,7 +211,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public int getItemCount() {
         if(list.size()==0)
-            return MainActivity.time.size();
+            return MainActivity.list.size();
         else
             return list.size();
     }
@@ -239,8 +248,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void setFilter(ArrayList<String>Mylist){
 
        // list.addAll(this.list);
-        list=Mylist;
-        notifyDataSetChanged();
+        /*list=Mylist;
+        notifyDataSetChanged();*/
 
     }
 

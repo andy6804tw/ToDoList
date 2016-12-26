@@ -16,7 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
-    public static ArrayList<String> title,date,time;
+    //public static ArrayList<String> title,date,time;
+    public static ArrayList<DataModel>list;
     DBAccess access;
 
     @Override
@@ -54,16 +55,18 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        title=new ArrayList<String>();
+        /*title=new ArrayList<String>();
         date=new ArrayList<String>();
-        time=new ArrayList<String>();
+        time=new ArrayList<String>();*/
+        list=new ArrayList<DataModel>();
         access=new DBAccess(this,"schedule",null,1);
         Cursor c=access.getData(null,DBAccess.DATE_FIELD);
         c.moveToFirst();
         for(int i=0;i<c.getCount();i++){
-            title.add(c.getString(1)+"");
+            /*title.add(c.getString(1)+"");
             date.add(c.getString(2)+"");
-            time.add(c.getString(3)+"");
+            time.add(c.getString(3)+"");*/
+            list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3)));
             c.moveToNext();
         }
         super.onResume();

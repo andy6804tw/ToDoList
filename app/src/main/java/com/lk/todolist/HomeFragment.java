@@ -34,8 +34,9 @@ public class HomeFragment extends Fragment {
     RecyclerView.Adapter adapter;
     private FlowLayout mFlowLayout;
     private FloatingActionButton fab;
-    public  static ArrayList<String>list;
+    //public  static ArrayList<String>list;
     public  static ArrayList<Integer>index;
+    public static ArrayList<DataModel>list;
     private String[] mVals =new String[]{
             "吃飯","開會","Welcome","Music"
     };
@@ -93,11 +94,12 @@ public class HomeFragment extends Fragment {
 
             }*/
 
-            list=new ArrayList<String>();
+            //list=new ArrayList<String>();
             index=new ArrayList<Integer>();
-            for(int i=0;i<MainActivity.title.size();i++){
-                if(MainActivity.title.get(i).contains(newText)){
-                    list.add(MainActivity.title.get(i));
+            list=new ArrayList<DataModel>();
+            for(int i=0;i<MainActivity.list.size();i++){
+                if(MainActivity.list.get(i).getTitle().contains(newText)){
+                    list.add(MainActivity.list.get(i));
                     index.add(i);
                 }
             }
@@ -132,11 +134,11 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getActivity(), tv.getText().toString(), Toast.LENGTH_SHORT).show();
-                    list=new ArrayList<String>();
+                    list=new ArrayList<DataModel>();
                     index=new ArrayList<Integer>();
-                    for(int i=0;i<MainActivity.title.size();i++){
-                        if(MainActivity.title.get(i).equals(tv.getText().toString())){
-                            list.add(MainActivity.title.get(i));
+                    for(int i=0;i<MainActivity.list.size();i++){
+                        if(MainActivity.list.get(i).getTitle().equals(tv.getText().toString())){
+                            list.add(MainActivity.list.get(i));
                             index.add(i);
                         }
                     }
