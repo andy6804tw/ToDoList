@@ -98,9 +98,9 @@ public class HomeFragment extends Fragment {
             index=new ArrayList<Integer>();
             list=new ArrayList<DataModel>();
             for(int i=0;i<MainActivity.list.size();i++){
-                if(MainActivity.list.get(i).getTitle().contains(newText)){
+                if(MainActivity.list.get(i).getTitle().contains(newText)||MainActivity.list.get(i).getDesc().contains(newText)||MainActivity.list.get(i).getCategory().contains(newText)){
                     list.add(MainActivity.list.get(i));
-                    index.add(i);
+                    //index.add(i);
                 }
             }
             adapter = new RecyclerAdapter(list,getActivity());
@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
                     list=new ArrayList<DataModel>();
                     index=new ArrayList<Integer>();
                     for(int i=0;i<MainActivity.list.size();i++){
-                        if(MainActivity.list.get(i).getTitle().equals(tv.getText().toString())){
+                        if(MainActivity.list.get(i).getCategory().equals(tv.getText().toString())){
                             list.add(MainActivity.list.get(i));
                             index.add(i);
                         }

@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             /*title.add(c.getString(1)+"");
             date.add(c.getString(2)+"");
             time.add(c.getString(3)+"");*/
-            list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3)));
+            list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));
             c.moveToNext();
         }
         super.onResume();

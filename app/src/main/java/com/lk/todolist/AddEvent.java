@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class AddEvent extends AppCompatActivity {
 
     DBAccess access;
-    EditText edtTitle,edtDate,edtTime;
+    EditText edtTitle,edtDate,edtTime,edtCategory,edtDesc;
     long id;//資料ID
     ListView listView;
     SimpleCursorAdapter adapter=null;
@@ -71,7 +71,9 @@ public class AddEvent extends AppCompatActivity {
         edtTitle=(EditText)findViewById(R.id.edtTitle);
         edtDate=(EditText)findViewById(R.id.edtDate);
         edtTime=(EditText)findViewById(R.id.edtTime);
-        long result =access.add(edtTitle.getText().toString(),edtDate.getText().toString(),edtTime.getText().toString());
+        edtCategory=(EditText)findViewById(R.id.edtCategory);
+        edtDesc=(EditText)findViewById(R.id.edtDesc);
+        long result =access.add(edtTitle.getText().toString(),edtDate.getText().toString(),edtTime.getText().toString(),edtCategory.getText().toString(),edtDesc.getText().toString(),"未完成");
         if(result>=0){
             Toast.makeText(AddEvent.this,"成功!",Toast.LENGTH_LONG).show();
             Cursor c=access.getData(null,DBAccess.DATE_FIELD);
@@ -79,6 +81,6 @@ public class AddEvent extends AppCompatActivity {
         }else{
             Toast.makeText(AddEvent.this,"失敗!",Toast.LENGTH_LONG).show();
         }
-        edtTitle.setText("");edtDate.setText("");edtTime.setText("");
+        edtTitle.setText("");edtDate.setText("");edtTime.setText("");edtCategory.setText("");edtDesc.setText("");
     }
 }

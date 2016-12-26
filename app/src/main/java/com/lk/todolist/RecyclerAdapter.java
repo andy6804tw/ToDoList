@@ -51,11 +51,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             tvOption =(TextView)itemView.findViewById(R.id.tvOption);
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+           /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     int position = getAdapterPosition();
 
-                    Snackbar.make(v, "Click detected on item " + position+" "+getItemId()+".",
+                    Snackbar.make(v, "Click detected on item " + position+" "+MainActivity.list.get(Integer.parseInt(MainActivity.list.get(position).getId())).getCategory()+".",
                             Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
@@ -66,12 +66,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 public boolean onLongClick(View v) {
                     int position = getAdapterPosition();
 
-                    Snackbar.make(v, "Click detected on item " + position,
+                    Snackbar.make(v, "Click detected on item " + position+" "+MainActivity.list.get(Integer.parseInt(MainActivity.list.get(position).getId())).getCategory()+" "+MainActivity.list.get(Integer.parseInt(MainActivity.list.get(position).getId())).getDesc(),
                             Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     return true;
                 }
-            });
+            });*/
         }
     }
 
@@ -180,7 +180,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                                         access.add(title,date,date);*/
                                                         MainActivity.list.add(i,remove_data);
                                                         DBAccess access=new DBAccess(mContext,"schedule",null,1);
-                                                        access.add(remove_data.getTitle(),remove_data.getDate(),remove_data.getTime());
+                                                        access.add(remove_data.getTitle(),remove_data.getDate(),remove_data.getTime(),remove_data.getCategory(),remove_data.getDesc(),remove_data.getStatue());
 
                                                         notifyDataSetChanged();//監聽list是否有變動
                                                     }
@@ -203,6 +203,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     }
                 });
                 popupMenu.show();
+            }
+        });
+
+        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                Snackbar.make(v, "Click detected on item " + i+" "+MainActivity.list.get(i).getCategory()+" "+MainActivity.list.get(i).getDesc(),
+                        Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                return true;
             }
         });
 
