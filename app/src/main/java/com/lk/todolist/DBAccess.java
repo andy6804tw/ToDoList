@@ -16,7 +16,7 @@ public class DBAccess extends SQLiteOpenHelper {
     protected final static String TABLE_NAME="todolist";//建議字串常數
     protected final static String ID_FIELD="_id";
     protected final static String TITLE_FIELD="title";
-    protected final static String DATE_FIELD="date";
+    public final static String DATE_FIELD="date";
     protected final static String TIME_FIELD="time";
     protected final static String CATRGORY_FIELD="category";
     protected final static String DESC_FIELD="desc";

@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.lk.todolist.MainActivity;
 import com.lk.todolist.R;
+import com.lk.todolist.Search.SearchActivity;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ public class DesktopActivity extends AppCompatActivity {
         ArrayList<todoItem> list=new ArrayList<>();
         list.add(new todoItem("代辦事項","Schedule",R.drawable.img4));
         list.add(new todoItem("回顧過去","Search",R.drawable.img2));
-        list.add(new todoItem("鬧鍾","Clock",R.drawable.img4));
+        list.add(new todoItem("關於","About",R.drawable.img5));
         TodoAdapter todoAdapter=new TodoAdapter(this,list);
         listView.setAdapter(todoAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -35,6 +36,9 @@ public class DesktopActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
                     startActivity(new Intent(DesktopActivity.this, MainActivity.class));
+                }
+                else if(position==1){
+                    startActivity(new Intent(DesktopActivity.this, SearchActivity.class));
                 }
 
             }

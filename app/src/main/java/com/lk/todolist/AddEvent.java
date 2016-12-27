@@ -56,7 +56,6 @@ public class AddEvent extends AppCompatActivity {
         tvDate=(TextView)findViewById(R.id.tvDate);
         tvTime=(TextView)findViewById(R.id.tvTime);
         //時間、日期PickerDialog監聽事件
-
         tvDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,8 +79,15 @@ public class AddEvent extends AppCompatActivity {
             dateTime.set(Calendar.YEAR, year);
             dateTime.set(Calendar.MONTH, monthOfYear);
             dateTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            String Date=formatDateTime.format(year);
-            tvDate.setText(year+"/"+(monthOfYear+1)+"/"+dayOfMonth);
+            //若月份為單位數補零
+            String str_monthOfYear=Integer.toString(monthOfYear+1);//月份+1
+            if(str_monthOfYear.length()==1)
+                str_monthOfYear="0"+str_monthOfYear;
+            //若日期為單位數補零
+            String str_dayOfMonth=Integer.toString(dayOfMonth);
+            if(str_dayOfMonth.length()==1)
+                str_dayOfMonth="0"+str_dayOfMonth;
+            tvDate.setText(year+"/"+str_monthOfYear+"/"+str_dayOfMonth);
             //updateTextLabel();
         }
     };
@@ -90,7 +96,15 @@ public class AddEvent extends AppCompatActivity {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             dateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
             dateTime.set(Calendar.MINUTE, minute);
-            tvTime.setText(hourOfDay+":"+minute);
+            //小時若單位數補零
+            String str_hourOfDay=Integer.toString(hourOfDay);
+            if(str_hourOfDay.length()==1)
+                str_hourOfDay="0"+str_hourOfDay;
+            //分鐘若為個位數補零
+            String str_minute=Integer.toString(minute);
+            if(str_minute.length()==1)
+                str_minute="0"+str_minute;
+            tvTime.setText(str_hourOfDay+":"+str_minute);
             //updateTextLabel();
         }
     };

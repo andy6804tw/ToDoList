@@ -7,8 +7,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,13 +57,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        //取得現在時間
+        SimpleDateFormat f=new SimpleDateFormat("yyyy/MM/dd");
+        Date curDate =new Date(System.currentTimeMillis());
+        String str=f.format(curDate);
 
         /*title=new ArrayList<String>();
         date=new ArrayList<String>();
         time=new ArrayList<String>();*/
         list=new ArrayList<DataModel>();
         access=new DBAccess(this,"schedule",null,1);
-        Cursor c=access.getData(null,DBAccess.DATE_FIELD);
+        //Cursor c=access.getData(null,DBAccess.DATE_FIELD);
+        Cursor c=access.getData(DBAccess.DATE_FIELD+" ='"+str+"'",DBAccess.TIME_FIELD);
         c.moveToFirst();
         for(int i=0;i<c.getCount();i++){
             /*title.add(c.getString(1)+"");
@@ -68,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             time.add(c.getString(3)+"");*/
             list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));
             c.moveToNext();
-        }
+        }Toast.makeText(this,str+" "+c.getCount(),Toast.LENGTH_LONG).show();
         super.onResume();
     }
 

@@ -17,8 +17,11 @@
         </activity>
         <activity android:name=".AddEvent" />
         <activity android:name=".modify" />
-        <activity android:name=".MainActivity"
-                  android:parentActivityName=".Desktop.DesktopActivity"/>
+        <activity
+            android:name=".MainActivity"
+            android:parentActivityName=".Desktop.DesktopActivity" />
+        <activity android:name=".Search.SearchActivity"
+            android:parentActivityName=".Desktop.DesktopActivity"/>
     </application>
 
 </manifest>
