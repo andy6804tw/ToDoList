@@ -147,13 +147,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                 break;
                             case R.id.mnu_item_delete://刪除
                                 //Delete item
-                                access.delete(MainActivity.list.get(i).getId());
+                               //access.delete(MainActivity.list.get(i).getId());
                                /* final String title=MainActivity.title.get(i);
                                 final String date=MainActivity.date.get(i);
                                 final String time=MainActivity.time.get(i);
                                 MainActivity.title.remove(i);
                                 MainActivity.date.remove(i);
                                 MainActivity.time.remove(i);*/
+                                String delete_id=MainActivity.list.get(i).getId();
                                 final DataModel remove_data=MainActivity.list.get(i);
                                 MainActivity.list.remove(i);
                                 notifyDataSetChanged();
@@ -169,16 +170,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                                 dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        RecyclerView recyclerView;
-                                                        RecyclerView.Adapter adapter;
-                                                       /* MainActivity.title.add(i,title);//放回去原本的位置第一個參數i代表放入的索引值
-                                                        MainActivity.date.add(i,date);
-                                                        MainActivity.time.add(i,time);
-                                                        DBAccess access=new DBAccess(mContext,"schedule",null,1);
-                                                        access.add(title,date,date);*/
+
                                                         MainActivity.list.add(i,remove_data);
-                                                        DBAccess access=new DBAccess(mContext,"schedule",null,1);
-                                                        access.add(remove_data.getTitle(),remove_data.getDate(),remove_data.getTime(),remove_data.getCategory(),remove_data.getDesc(),remove_data.getStatue());
+                                                        //DBAccess access=new DBAccess(mContext,"schedule",null,1);
+                                                        //access.add(remove_data.getTitle(),remove_data.getDate(),remove_data.getTime(),remove_data.getCategory(),remove_data.getDesc(),remove_data.getStatue());
 
                                                         notifyDataSetChanged();//監聽list是否有變動
                                                     }
@@ -193,6 +188,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
                                             }
                                         }).show();
+                                //確定刪除
+                                Toast.makeText(mContext,delete_id,Toast.LENGTH_LONG).show();
+                                access.delete(delete_id);
                                 break;
                             default:
                                 break;
