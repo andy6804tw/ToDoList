@@ -17,7 +17,7 @@ public class DBAccess extends SQLiteOpenHelper {
     protected final static String ID_FIELD="_id";
     protected final static String TITLE_FIELD="title";
     public final static String DATE_FIELD="date";
-    protected final static String TIME_FIELD="time";
+    public final static String TIME_FIELD="time";
     protected final static String CATRGORY_FIELD="category";
     protected final static String DESC_FIELD="desc";
     protected final static String STATUE_FIELD="statue";

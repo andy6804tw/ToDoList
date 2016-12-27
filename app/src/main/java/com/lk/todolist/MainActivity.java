@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
+
 public class MainActivity extends AppCompatActivity {
 
     private  Toolbar toolbar;
@@ -77,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
             list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));
             c.moveToNext();
         }Toast.makeText(this,str+" "+c.getCount(),Toast.LENGTH_LONG).show();
+        //設定桌面icon今日代辦事項的個數
+        ShortcutBadger.applyCount(getApplicationContext(), list.size());
         super.onResume();
     }
 
