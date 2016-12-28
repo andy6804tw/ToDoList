@@ -1,13 +1,103 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lk.todolist.SecondFragment">
+    tools:context="com.lk.todolist.SecondFragment"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingStart="20dp"
+    android:background="@drawable/bg07">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <at.grabner.circleprogress.CircleProgressView
+            android:id="@+id/circleView"
+            CircleProgressView:cpv_autoTextSize="true"
+            CircleProgressView:cpv_barColor="#353535"
+            CircleProgressView:cpv_barWidth="20dp"
+            CircleProgressView:cpv_innerContourSize="0dp"
+            CircleProgressView:cpv_maxValue="100"
+            CircleProgressView:cpv_outerContourSize="0dp"
+            CircleProgressView:cpv_rimColor="#ffffff"
+            CircleProgressView:cpv_rimWidth="20dp"
+            CircleProgressView:cpv_seekMode="true"
+            CircleProgressView:cpv_showUnit="true"
+            CircleProgressView:cpv_spinColor="#353535"
+            CircleProgressView:cpv_textColor="#353535"
+            CircleProgressView:cpv_textScale="1"
+            CircleProgressView:cpv_unit="%"
+            CircleProgressView:cpv_unitColor="#ffffff"
+            CircleProgressView:cpv_unitPosition="right_top"
+            CircleProgressView:cpv_unitScale="1"
+            CircleProgressView:cpv_value="0"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="14dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            CircleProgressView:cpv_spinSpeed="8" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/card_view"
+            CircleProgressView:cardBackgroundColor="#b0606060"
+            CircleProgressView:cardCornerRadius="12dp"
+            CircleProgressView:cardElevation="3dp"
+            CircleProgressView:contentPadding="14dp"
+            android:foreground="?selectableItemBackground"
+            android:clickable="true"
+            android:layout_marginBottom="49dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="今日工作量:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                    android:textSize="24sp"
+                    android:id="@+id/tvWork"
+                    android:gravity="center_horizontal"
+                    android:textColor="#ffffff"
+                    android:layout_alignTop="@+id/card_view"
+                    android:padding="5dp" />
+                <TextView
+                    android:text="未完成:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvUnFinish"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="#d95252"
+                    android:textSize="25sp"
+                    android:padding="5dp" />
+                <TextView
+                    android:text="完成:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvFinish"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="#4ebe62"
+                    android:gravity="center_horizontal"
+                    android:textSize="25sp"
+                    android:padding="5dp"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
 
 </FrameLayout>

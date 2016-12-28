@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager=(ViewPager)findViewById(R.id.viewPager);
         viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragments(new HomeFragment(),"今日行程");
-        viewPagerAdapter.addFragments(new SecondFragment(),"First");
-        viewPagerAdapter.addFragments(new ThirdFragment(),"Second");
+        viewPagerAdapter.addFragments(new SecondFragment(),"今日進度");
+        //viewPagerAdapter.addFragments(new ThirdFragment(),"Second");
 
 
         //Toast.makeText(MainActivity.this,title.size()+" "+title.get(2),Toast.LENGTH_LONG).show();
