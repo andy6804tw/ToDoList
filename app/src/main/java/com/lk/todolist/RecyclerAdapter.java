@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         public TextView tvTitle,tvDate,tvTime,tvOption;
         public ImageView ivStatute;
+        public CardView card_view;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -50,7 +52,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             tvTime =(TextView)itemView.findViewById(R.id.tvTime);
             tvOption =(TextView)itemView.findViewById(R.id.tvOption);
             ivStatute=(ImageView)itemView.findViewById(R.id.ivStatute);
-
+            card_view=(CardView)itemView.findViewById(R.id.card_view);
 
            /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
@@ -111,11 +113,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             viewHolder.tvTime.setText(MainActivity.list.get(i).getTime());
 
         }else{
-            //設定狀態圖片
-            if(list.get(i).getStatue().equals("完成")){
-                viewHolder.ivStatute.setImageResource(R.drawable.done);
-            }else{
-                viewHolder.ivStatute.setImageResource(R.drawable.undone);
+            //判斷是否SearchActivity 要變換cardView顏色
+            if(mContext.toString().contains("SearchActivity")){
+                viewHolder.card_view.setCardBackgroundColor(R.color.colorSearchCard);
+            }
+                //設定狀態圖片
+                if(list.get(i).getStatue().equals("完成")){
+                    viewHolder.ivStatute.setImageResource(R.drawable.done);
+                }else{
+                    viewHolder.ivStatute.setImageResource(R.drawable.undone);
+
             }
             /*viewHolder.tvTitle.setText(MainActivity.title.get(HomeFragment.index.get(i)));
             viewHolder.tvDate.setText(MainActivity.date.get(HomeFragment.index.get(i)));
