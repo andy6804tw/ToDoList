@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
         public TextView tvTitle,tvDate,tvTime,tvOption;
+        public ImageView ivStatute;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -47,6 +49,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             tvDate = (TextView)itemView.findViewById(R.id.tvDate);
             tvTime =(TextView)itemView.findViewById(R.id.tvTime);
             tvOption =(TextView)itemView.findViewById(R.id.tvOption);
+            ivStatute=(ImageView)itemView.findViewById(R.id.ivStatute);
 
 
            /* itemView.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +97,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
         if(list.size()==0){
+            //設定狀態圖片
+            if(MainActivity.list.get(i).getStatue().equals("完成")){
+                viewHolder.ivStatute.setImageResource(R.drawable.done);
+            }else{
+                viewHolder.ivStatute.setImageResource(R.drawable.undone);
+            }
             /*viewHolder.tvTitle.setText(MainActivity.title.get(i));
             viewHolder.tvDate.setText(MainActivity.date.get(i));
             viewHolder.tvTime.setText(MainActivity.time.get(i));*/
@@ -102,6 +111,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             viewHolder.tvTime.setText(MainActivity.list.get(i).getTime());
 
         }else{
+            //設定狀態圖片
+            if(list.get(i).getStatue().equals("完成")){
+                viewHolder.ivStatute.setImageResource(R.drawable.done);
+            }else{
+                viewHolder.ivStatute.setImageResource(R.drawable.undone);
+            }
             /*viewHolder.tvTitle.setText(MainActivity.title.get(HomeFragment.index.get(i)));
             viewHolder.tvDate.setText(MainActivity.date.get(HomeFragment.index.get(i)));
             viewHolder.tvTime.setText(MainActivity.time.get(HomeFragment.index.get(i)));*/

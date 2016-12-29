@@ -5,13 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/card_view"
-    android:layout_margin="5dp"
-    card_view:cardBackgroundColor="#bf00174d"
+    card_view:cardBackgroundColor="#b100174d"
     card_view:cardCornerRadius="12dp"
     card_view:cardElevation="3dp"
     card_view:contentPadding="4dp"
     android:foreground="?selectableItemBackground"
-    android:clickable="true" >
+    android:clickable="true"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="10dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,27 +25,40 @@
             android:layout_height="wrap_content"
             android:id="@+id/linearLayout">
 
-            <TextView
-                android:text="TextView"
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvTitle"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="#ffffff"/>
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    card_view:srcCompat="@drawable/undone"
+                    android:id="@+id/ivStatute"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTitle"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="#ffffff"/>
+            </TableRow>
 
             <TextView
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvDate"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                android:layout_marginLeft="40dp" />
 
             <TextView
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvTime"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                android:layout_marginLeft="40dp" />
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"

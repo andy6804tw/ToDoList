@@ -28,8 +28,8 @@
         android:layout_height="match_parent"
         android:id="@+id/viewPager"
         android:layout_below="@id/appBarLayout"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:background="@drawable/bg05">
+        android:background="@drawable/bg09"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
     </android.support.v4.view.ViewPager>
     </android.support.design.widget.CoordinatorLayout>
 

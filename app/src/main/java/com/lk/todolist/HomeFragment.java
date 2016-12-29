@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
     public  static ArrayList<Integer>index;
     public static ArrayList<DataModel>list;
     private String[] mVals =new String[]{
-            "吃飯","開會","Welcome","Music"
+            "家庭","開會","學校","功課","全部"
     };
 
 
