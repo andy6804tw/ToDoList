@@ -99,10 +99,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 View subView = LayoutInflater.from(v.getContext()).inflate(R.layout.card_add_layout, (ViewGroup)v, false);
                 TextView tvDesc=(TextView)subView.findViewById(R.id.tvDesc);
                 //viewHolder.getAdapterPosition()取得現在list的位置取得描述資料
-                if(mContext.toString().contains("MainActivity")){
-                    tvDesc.setText("備註: "+MainActivity.list.get(viewHolder.getAdapterPosition()).getDesc());
+                if(list.size()==0) {
+                    if (mContext.toString().contains("MainActivity")) {
+                        tvDesc.setText("備註: " + MainActivity.list.get(viewHolder.getAdapterPosition()).getDesc());
+                    } else {
+                        tvDesc.setText("備註: " + SearchActivity.list.get(viewHolder.getAdapterPosition()).getDesc());
+                    }
                 }else{
-                    tvDesc.setText("備註: "+ SearchActivity.list.get(viewHolder.getAdapterPosition()).getDesc());
+                    tvDesc.setText("備註: " +list.get(viewHolder.getAdapterPosition()).getDesc());
                 }
 
                 // 利用cell控件的Tag值来标记cell是否被点击过,因为已经将重用机制取消，cell退出当前界面时就会被销毁，Tag值也就不存在了。
@@ -177,7 +181,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void onClick(final View v) {
                 //Display option menu
 
-                PopupMenu popupMenu = new PopupMenu(mContext, viewHolder.tvOption);
+                final PopupMenu popupMenu = new PopupMenu(mContext, viewHolder.tvOption);
                 popupMenu.inflate(R.menu.card_option_menu);//畫一個menu
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -217,6 +221,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                 MainActivity.date.remove(i);
                                 MainActivity.time.remove(i);*/
                                 String delete_id=MainActivity.list.get(i).getId();
+                                final int position_delete=viewHolder.getAdapterPosition();
                                 final DataModel remove_data=MainActivity.list.get(i);
                                 //確定刪除
                                 access.delete(delete_id);
@@ -239,9 +244,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                                         access.add(remove_data.getTitle(),remove_data.getDate(),remove_data.getTime(),remove_data.getCategory(),remove_data.getDesc(),remove_data.getStatue());
                                                         ArrayList<DataModel>temp_list=new ArrayList<DataModel>();
                                                         remove_data.id=Integer.toString(Integer.parseInt(remove_data.id)+1);
-                                                        temp_list.add(remove_data);
-                                                        for(int j=1;j<=MainActivity.list.size();j++){
-                                                            temp_list.add(MainActivity.list.get(j-1));
+                                                        Toast.makeText(mContext,position_delete+"",Toast.LENGTH_LONG).show();
+                                                        for(int j=0;j<=MainActivity.list.size();j++){
+                                                            if(j==position_delete)
+                                                                temp_list.add(remove_data);
+                                                            else if(j>position_delete)
+                                                                temp_list.add(MainActivity.list.get(j-1));
+                                                            else
+                                                                temp_list.add(MainActivity.list.get(j));
                                                         }
                                                         MainActivity.list=temp_list;
                                                         notifyDataSetChanged();//監聽list是否有變動
