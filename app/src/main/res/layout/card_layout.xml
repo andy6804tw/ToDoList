@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/card_view"
-    card_view:cardBackgroundColor="#b100174d"
+    card_view:cardBackgroundColor="#ac00174d"
     card_view:cardCornerRadius="12dp"
     card_view:cardElevation="3dp"
     card_view:contentPadding="4dp"
@@ -32,8 +32,11 @@
                 <ImageView
                     card_view:srcCompat="@drawable/undone"
                     android:id="@+id/ivStatute"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp" />
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="4dp" />
 
                 <TextView
                     android:text="TextView"

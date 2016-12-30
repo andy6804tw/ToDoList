@@ -23,11 +23,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lk.todolist.Search.SearchActivity;
+
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements View.OnClickListener{
 
     ArrayList<DataModel>list=new ArrayList<DataModel>();
+    int position=0;
 
     private  static Context mContext;//給卡片選項用的HomeFragment.class
     public RecyclerAdapter(Context c){
@@ -41,7 +44,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder{
 
 
-        public TextView tvTitle,tvDate,tvTime,tvOption;
+        public TextView tvTitle,tvDate,tvTime,tvOption,tvDesc;
         public ImageView ivStatute;
         public CardView card_view;
 
@@ -53,7 +56,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             tvOption =(TextView)itemView.findViewById(R.id.tvOption);
             ivStatute=(ImageView)itemView.findViewById(R.id.ivStatute);
             card_view=(CardView)itemView.findViewById(R.id.card_view);
-
+            if(mContext.toString().contains("SearchActivity")){
+                tvOption.setVisibility(View.GONE);//設定隱藏且不佔空間，動態隱藏顯示元件
+            }
            /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     int position = getAdapterPosition();
@@ -79,14 +84,49 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup,final int i) {
 
             View v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.card_layout, viewGroup, false);
-            ViewHolder viewHolder = new ViewHolder(v);
+            final ViewHolder viewHolder = new ViewHolder(v);
 
         // 对每一个cell注册点击事件
-        v.setOnClickListener(this);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index;
+                LinearLayout linearLayout = (LinearLayout)v.findViewById(R.id.linearLayout);
+                View subView = LayoutInflater.from(v.getContext()).inflate(R.layout.card_add_layout, (ViewGroup)v, false);
+                TextView tvDesc=(TextView)subView.findViewById(R.id.tvDesc);
+                //viewHolder.getAdapterPosition()取得現在list的位置取得描述資料
+                if(mContext.toString().contains("MainActivity")){
+                    tvDesc.setText("備註: "+MainActivity.list.get(viewHolder.getAdapterPosition()).getDesc());
+                }else{
+                    tvDesc.setText("備註: "+ SearchActivity.list.get(viewHolder.getAdapterPosition()).getDesc());
+                }
+
+                // 利用cell控件的Tag值来标记cell是否被点击过,因为已经将重用机制取消，cell退出当前界面时就会被销毁，Tag值也就不存在了。
+                // 如果不取消重用，那么将会出现未曾点击就已经添加子视图的效果，再点击的时候会继续添加而不是收回。
+                if (v.findViewById(R.id.linearLayout).getTag() == null) {
+                    index = 1;
+                } else {
+                    index = (int)v.findViewById(R.id.linearLayout).getTag();
+                }
+
+                Log.i("yichu", "onClick: " + index);
+
+                // close状态: 添加视图
+                if (index == 1) {
+                    linearLayout.addView(subView);
+                    subView.setTag(1000);
+                    v.findViewById(R.id.linearLayout).setTag(2);
+                } else {
+                    // open状态： 移除视图
+                    linearLayout.removeView(v.findViewWithTag(1000));
+                    v.findViewById(R.id.linearLayout).setTag(1);
+                }
+            }
+        });
 
         // 取消viewHolder的重用机制（很重要）
         viewHolder.setIsRecyclable(false);
@@ -101,9 +141,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         if(list.size()==0){
             //設定狀態圖片
             if(MainActivity.list.get(i).getStatue().equals("完成")){
-                viewHolder.ivStatute.setImageResource(R.drawable.done);
+                viewHolder.ivStatute.setImageResource(R.drawable.done2);
             }else{
-                viewHolder.ivStatute.setImageResource(R.drawable.undone);
+                viewHolder.ivStatute.setImageResource(R.drawable.undone2);
             }
             /*viewHolder.tvTitle.setText(MainActivity.title.get(i));
             viewHolder.tvDate.setText(MainActivity.date.get(i));
@@ -115,13 +155,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }else{
             //判斷是否SearchActivity 要變換cardView顏色
             if(mContext.toString().contains("SearchActivity")){
-                viewHolder.card_view.setCardBackgroundColor(R.color.colorSearchCard);
+                viewHolder.card_view.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorSearchCard));
             }
                 //設定狀態圖片
                 if(list.get(i).getStatue().equals("完成")){
-                    viewHolder.ivStatute.setImageResource(R.drawable.done);
+                    viewHolder.ivStatute.setImageResource(R.drawable.done2);
                 }else{
-                    viewHolder.ivStatute.setImageResource(R.drawable.undone);
+                    viewHolder.ivStatute.setImageResource(R.drawable.undone2);
 
             }
             /*viewHolder.tvTitle.setText(MainActivity.title.get(HomeFragment.index.get(i)));
@@ -143,7 +183,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
 
-                        DBAccess access =new DBAccess(mContext,"schedule",null,1);
+                        final DBAccess access =new DBAccess(mContext,"schedule",null,1);
                         /*int id=0;
                         Cursor c=access.getData(null, null);//資料查詢，無條件(按照資料放入順序排列、原始順序)
                         c.moveToFirst();
@@ -178,9 +218,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                 MainActivity.time.remove(i);*/
                                 String delete_id=MainActivity.list.get(i).getId();
                                 final DataModel remove_data=MainActivity.list.get(i);
+                                //確定刪除
+                                access.delete(delete_id);
                                 MainActivity.list.remove(i);
                                 notifyDataSetChanged();
-                                //Toast.makeText(mContext, "Deleted "+i+" "+MainActivity.title.get(i), Toast.LENGTH_LONG).show();
                                 Snackbar.make(v, "刪除成功" ,
                                         Snackbar.LENGTH_LONG)
                                         .setAction("取消刪除", new View.OnClickListener() {
@@ -193,10 +234,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
 
-                                                        MainActivity.list.add(i,remove_data);
                                                         //DBAccess access=new DBAccess(mContext,"schedule",null,1);
                                                         //access.add(remove_data.getTitle(),remove_data.getDate(),remove_data.getTime(),remove_data.getCategory(),remove_data.getDesc(),remove_data.getStatue());
-
+                                                        access.add(remove_data.getTitle(),remove_data.getDate(),remove_data.getTime(),remove_data.getCategory(),remove_data.getDesc(),remove_data.getStatue());
+                                                        ArrayList<DataModel>temp_list=new ArrayList<DataModel>();
+                                                        remove_data.id=Integer.toString(Integer.parseInt(remove_data.id)+1);
+                                                        temp_list.add(remove_data);
+                                                        for(int j=1;j<=MainActivity.list.size();j++){
+                                                            temp_list.add(MainActivity.list.get(j-1));
+                                                        }
+                                                        MainActivity.list=temp_list;
                                                         notifyDataSetChanged();//監聽list是否有變動
                                                     }
                                                 });
@@ -210,9 +257,41 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
                                             }
                                         }).show();
+
+                                break;
+                            case R.id.mnu_item_done:
+                                final DataModel updae_data=MainActivity.list.get(i);
                                 //確定刪除
-                                Toast.makeText(mContext,delete_id,Toast.LENGTH_LONG).show();
-                                access.delete(delete_id);
+                                MainActivity.list.get(i).statue="完成";
+                                notifyDataSetChanged();
+                                access.update(updae_data.getTitle(),updae_data.getDate(),updae_data.getTime(),updae_data.getCategory(),updae_data.getDesc(),"完成",DBAccess.ID_FIELD+" ="+updae_data.getId());
+                                Snackbar.make(v, "事件完成" ,
+                                        Snackbar.LENGTH_LONG)
+                                        .setAction("取消完成", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                                AlertDialog.Builder dialog=new AlertDialog.Builder(mContext);
+                                                dialog.setMessage("確定復原?");
+                                                dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                        MainActivity.list.get(i).statue="未完成";
+                                                        notifyDataSetChanged();
+                                                        access.update(updae_data.getTitle(),updae_data.getDate(),updae_data.getTime(),updae_data.getCategory(),updae_data.getDesc(),"未完成",DBAccess.ID_FIELD+" ="+updae_data.getId());
+                                                    }
+                                                });
+                                                dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                                dialog.show();
+
+                                            }
+                                        }).show();
                                 break;
                             default:
                                 break;
@@ -249,29 +328,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         int index;
 
-        LinearLayout linearLayout = (LinearLayout)v.findViewById(R.id.linearLayout);
-        View subView = LayoutInflater.from(v.getContext()).inflate(R.layout.card_add_layout, (ViewGroup)v, false);
 
-        // 利用cell控件的Tag值来标记cell是否被点击过,因为已经将重用机制取消，cell退出当前界面时就会被销毁，Tag值也就不存在了。
-        // 如果不取消重用，那么将会出现未曾点击就已经添加子视图的效果，再点击的时候会继续添加而不是收回。
-        if (v.findViewById(R.id.linearLayout).getTag() == null) {
-            index = 1;
-        } else {
-            index = (int)v.findViewById(R.id.linearLayout).getTag();
-        }
-
-        Log.i("yichu", "onClick: " + index);
-
-        // close状态: 添加视图
-        if (index == 1) {
-            linearLayout.addView(subView);
-            subView.setTag(1000);
-            v.findViewById(R.id.linearLayout).setTag(2);
-        } else {
-            // open状态： 移除视图
-            linearLayout.removeView(v.findViewWithTag(1000));
-            v.findViewById(R.id.linearLayout).setTag(1);
-        }
     }
 
     public void setFilter(ArrayList<String>Mylist){
