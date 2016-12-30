@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.lk.todolist.About.AboutActivity;
 import com.lk.todolist.DBAccess;
 import com.lk.todolist.DataModel;
 import com.lk.todolist.MainActivity;
@@ -51,6 +52,9 @@ public class DesktopActivity extends AppCompatActivity {
                 else if(position==1){
                     startActivity(new Intent(DesktopActivity.this, SearchActivity.class));
                 }
+                else if(position==2){
+                    startActivity(new Intent(DesktopActivity.this, AboutActivity.class));
+                }
 
             }
         });
@@ -63,6 +67,7 @@ public class DesktopActivity extends AppCompatActivity {
         SimpleDateFormat f=new SimpleDateFormat("yyyy/MM/dd");
         Date curDate =new Date(System.currentTimeMillis());
         String str=f.format(curDate);
+        int count=0;
         //建立今日事項
         list=new ArrayList<DataModel>();
         access=new DBAccess(this,"schedule",null,1);
@@ -73,10 +78,12 @@ public class DesktopActivity extends AppCompatActivity {
             /*title.add(c.getString(1)+"");
             date.add(c.getString(2)+"");
             time.add(c.getString(3)+"");*/
+            if(c.getString(6).equals("未完成"))
+                count++;
             list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));
             c.moveToNext();
         }
         //設定桌面icon今日代辦事項的個數
-        ShortcutBadger.applyCount(getApplicationContext(), list.size());
+        ShortcutBadger.applyCount(getApplicationContext(), count);
     }
 }

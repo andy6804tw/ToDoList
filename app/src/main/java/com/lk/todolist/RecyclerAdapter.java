@@ -27,10 +27,13 @@ import com.lk.todolist.Search.SearchActivity;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements View.OnClickListener{
+import me.leolin.shortcutbadger.ShortcutBadger;
+
+import static com.lk.todolist.MainActivity.count;
+
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     ArrayList<DataModel>list=new ArrayList<DataModel>();
-    int position=0;
 
     private  static Context mContext;//給卡片選項用的HomeFragment.class
     public RecyclerAdapter(Context c){
@@ -44,7 +47,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder{
 
 
-        public TextView tvTitle,tvDate,tvTime,tvOption,tvDesc;
+        public TextView tvTitle,tvDate,tvTime,tvOption;
         public ImageView ivStatute;
         public CardView card_view;
 
@@ -226,6 +229,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                 //確定刪除
                                 access.delete(delete_id);
                                 MainActivity.list.remove(i);
+                                if(remove_data.getStatue().equals("未完成"))
+                                    ShortcutBadger.applyCount(mContext.getApplicationContext(), count-1);//桌面未完成次數
                                 notifyDataSetChanged();
                                 Snackbar.make(v, "刪除成功" ,
                                         Snackbar.LENGTH_LONG)
@@ -254,6 +259,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                                                 temp_list.add(MainActivity.list.get(j));
                                                         }
                                                         MainActivity.list=temp_list;
+                                                        if(remove_data.getStatue().equals("未完成"))
+                                                            ShortcutBadger.applyCount(mContext.getApplicationContext(), count);//桌面未完成次數
                                                         notifyDataSetChanged();//監聽list是否有變動
                                                     }
                                                 });
@@ -273,6 +280,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                 final DataModel updae_data=MainActivity.list.get(i);
                                 //確定刪除
                                 MainActivity.list.get(i).statue="完成";
+                                ShortcutBadger.applyCount(mContext.getApplicationContext(), MainActivity.count-1);//桌面未完成次數
                                 notifyDataSetChanged();
                                 access.update(updae_data.getTitle(),updae_data.getDate(),updae_data.getTime(),updae_data.getCategory(),updae_data.getDesc(),"完成",DBAccess.ID_FIELD+" ="+updae_data.getId());
                                 Snackbar.make(v, "事件完成" ,
@@ -288,6 +296,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                                     public void onClick(DialogInterface dialog, int which) {
 
                                                         MainActivity.list.get(i).statue="未完成";
+                                                        ShortcutBadger.applyCount(mContext.getApplicationContext(), MainActivity.count);//桌面未完成次數
                                                         notifyDataSetChanged();
                                                         access.update(updae_data.getTitle(),updae_data.getDate(),updae_data.getTime(),updae_data.getCategory(),updae_data.getDesc(),"未完成",DBAccess.ID_FIELD+" ="+updae_data.getId());
                                                     }
@@ -333,20 +342,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         else
             return list.size();
     }
-    @Override
-    public void onClick(View v) {
-
-        int index;
 
 
-    }
-
-    public void setFilter(ArrayList<String>Mylist){
-
-       // list.addAll(this.list);
-        /*list=Mylist;
-        notifyDataSetChanged();*/
-
-    }
 
 }

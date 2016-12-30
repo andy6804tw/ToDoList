@@ -39,7 +39,7 @@
                 android:layout_margin="16dp"
                 android:id="@+id/fab"
                 app:fabSize="normal"
-                app:backgroundTint="@android:color/holo_blue_dark"
+                app:backgroundTint="#92b4d9"
                 android:src="@mipmap/ic_add_white_24dp"/>
         </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>

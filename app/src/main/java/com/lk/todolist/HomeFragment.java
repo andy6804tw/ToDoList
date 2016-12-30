@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
     private String[] mVals =new String[]{
             "家庭","開會","學校","功課","全部"
     };
-
+    DBAccess access;
 
     public HomeFragment() {
         // Required empty public constructor

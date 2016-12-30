@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     //public static ArrayList<String> title,date,time;
     public static ArrayList<DataModel>list;
     DBAccess access;
+    public static int count=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
         //setupTabIcons();
     }
-
     @Override
     protected void onResume() {
         viewPager.setAdapter(viewPagerAdapter);
@@ -62,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat f=new SimpleDateFormat("yyyy/MM/dd");
         Date curDate =new Date(System.currentTimeMillis());
         String str=f.format(curDate);
-
         /*title=new ArrayList<String>();
         date=new ArrayList<String>();
         time=new ArrayList<String>();*/
+        count=0;
         list=new ArrayList<DataModel>();
         access=new DBAccess(this,"schedule",null,1);
         //Cursor c=access.getData(null,DBAccess.DATE_FIELD);
@@ -75,11 +75,13 @@ public class MainActivity extends AppCompatActivity {
             /*title.add(c.getString(1)+"");
             date.add(c.getString(2)+"");
             time.add(c.getString(3)+"");*/
+            if(c.getString(6).equals("未完成"))
+                count++;
             list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));
             c.moveToNext();
         }Toast.makeText(this,str+" "+c.getCount(),Toast.LENGTH_LONG).show();
         //設定桌面icon今日代辦事項的個數
-        ShortcutBadger.applyCount(getApplicationContext(), list.size());
+        ShortcutBadger.applyCount(getApplicationContext(), count);
         super.onResume();
     }
 

@@ -20,8 +20,11 @@
         <activity
             android:name=".MainActivity"
             android:parentActivityName=".Desktop.DesktopActivity" />
-        <activity android:name=".Search.SearchActivity"
-            android:parentActivityName=".Desktop.DesktopActivity"/>
+        <activity
+            android:name=".Search.SearchActivity"
+            android:parentActivityName=".Desktop.DesktopActivity" />
+        <activity android:name=".About.AboutActivity"
+            android:parentActivityName=".Desktop.DesktopActivity" />
     </application>
 
 </manifest>

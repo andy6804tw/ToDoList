@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_about"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lk.todolist.About.AboutActivity"
+    android:background="@drawable/bg14"
+    >
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBarLayout"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark">
+        <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_cool_toolbar"
+            android:fitsSystemWindows="true"
+            />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_view"
+        app:cardBackgroundColor="#b4a79c6d"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="3dp"
+        app:contentPadding="4dp"
+        android:foreground="?selectableItemBackground"
+        android:clickable="true"
+        android:layout_below="@+id/appBarLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="姓名: 蔡易霖"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:layout_alignLeft="@+id/textView"
+                android:layout_alignStart="@+id/textView"
+                android:layout_marginTop="11dp"
+                android:id="@+id/textView5" />
+
+            <TextView
+                android:text="學號: F74372017"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView5"
+                android:layout_alignLeft="@+id/textView5"
+                android:layout_alignStart="@+id/textView5"
+                android:layout_marginTop="16dp"
+                android:id="@+id/textView7" />
+
+            <TextView
+                android:text="班級: 資工3B"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView"
+                android:textSize="25sp"
+                android:layout_alignTop="@+id/img1"
+                android:layout_toRightOf="@+id/img1"
+                android:layout_toEndOf="@+id/img1"
+                android:layout_marginLeft="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="34dp" />
+
+            <ImageView
+                app:srcCompat="@drawable/about01"
+                android:id="@+id/img1"
+                android:layout_height="150dp"
+                android:layout_width="100dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_view2"
+        app:cardBackgroundColor="#b4a79c6d"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="3dp"
+        app:contentPadding="4dp"
+        android:foreground="?selectableItemBackground"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="78dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="學號: F74363018"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView12"
+                android:layout_marginBottom="25dp"
+                android:layout_alignBottom="@+id/img2"
+                android:layout_alignLeft="@+id/textView11"
+                android:layout_alignStart="@+id/textView11" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                app:srcCompat="@drawable/about02"
+                android:id="@+id/img2"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="12dp"
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:text="班級: 資工3A"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView8"
+                android:textSize="25sp"
+                android:layout_marginBottom="15dp"
+                android:layout_above="@+id/textView11"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="27dp"
+                android:layout_marginStart="27dp" />
+
+            <TextView
+                android:text="姓名: 連建凱"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:id="@+id/textView11"
+                android:layout_above="@+id/textView12"
+                android:layout_alignLeft="@+id/textView8"
+                android:layout_alignStart="@+id/textView8" />
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
