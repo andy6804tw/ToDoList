@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:id="@+id/tvDate1"
+        android:hint="開始時間"
+        android:textSize="20sp" />
+
+    <TextView
+        android:text="|"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvDate1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:id="@+id/textView3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:id="@+id/tvDate2"
+        android:hint="結束時間"
+        android:textSize="20sp" />
+
+    <Button
+        android:text="取消"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvDate2"
+        android:layout_toLeftOf="@+id/tvDate2"
+        android:layout_toStartOf="@+id/tvDate2"
+        android:layout_marginTop="24dp"
+        android:id="@+id/btnNo" />
+
+    <Button
+        android:text="查詢"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnNo"
+        android:layout_toRightOf="@+id/tvDate2"
+        android:layout_toEndOf="@+id/tvDate2"
+        android:id="@+id/btnYes" />
+</RelativeLayout>
