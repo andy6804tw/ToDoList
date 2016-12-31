@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
         @Override
         public boolean onQueryTextChange(String newText) {
 
-            //直接丟給filter
+
             newText=newText.toLowerCase();
            /* ArrayList<String> Mylist=new ArrayList<String>();
             for(String s:MainActivity.title){
@@ -96,6 +96,7 @@ public class HomeFragment extends Fragment {
 
             //list=new ArrayList<String>();
             //index=new ArrayList<Integer>();
+            //逐一比對搜尋
             list=new ArrayList<DataModel>();
             for(int i=0;i<MainActivity.list.size();i++){
                 if(MainActivity.list.get(i).getTitle().contains(newText)||MainActivity.list.get(i).getDesc().contains(newText)||MainActivity.list.get(i).getCategory().contains(newText)){

@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,7 +92,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     .inflate(R.layout.card_layout, viewGroup, false);
             final ViewHolder viewHolder = new ViewHolder(v);
 
-        // 对每一个cell注册点击事件
+        //對每一個cell註冊點擊事件
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,41 +100,55 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 LinearLayout linearLayout = (LinearLayout)v.findViewById(R.id.linearLayout);
                 View subView = LayoutInflater.from(v.getContext()).inflate(R.layout.card_add_layout, (ViewGroup)v, false);
                 TextView tvDesc=(TextView)subView.findViewById(R.id.tvDesc);
+                TextView tvCategory=(TextView)subView.findViewById(R.id.tvCategory);
+                String strDesc="";
                 //viewHolder.getAdapterPosition()取得現在list的位置取得描述資料
                 if(list.size()==0) {
                     if (mContext.toString().contains("MainActivity")) {
-                        tvDesc.setText("備註: " + MainActivity.list.get(viewHolder.getAdapterPosition()).getDesc());
+                        strDesc=MainActivity.list.get(viewHolder.getAdapterPosition()).getDesc();
+                        if(strDesc.equals(""))
+                            strDesc="無";
+                        tvDesc.setText("備註: " + strDesc);
+                        tvCategory.setText("類別: " + MainActivity.list.get(viewHolder.getAdapterPosition()).getCategory());
                     } else {
-                        tvDesc.setText("備註: " + SearchActivity.list.get(viewHolder.getAdapterPosition()).getDesc());
+                        strDesc=SearchActivity.list.get(viewHolder.getAdapterPosition()).getDesc();
+                        if(strDesc.equals(""))
+                            strDesc="無";
+                        tvDesc.setText("備註: " + strDesc);
+                        tvCategory.setText("類別: " + SearchActivity.list.get(viewHolder.getAdapterPosition()).getCategory());
                     }
                 }else{
-                    tvDesc.setText("備註: " +list.get(viewHolder.getAdapterPosition()).getDesc());
+                    strDesc=list.get(viewHolder.getAdapterPosition()).getDesc();
+                    if(strDesc.equals(""))
+                        strDesc="無";
+                    tvDesc.setText("備註: " +strDesc);
+                    tvCategory.setText("類別: " + list.get(viewHolder.getAdapterPosition()).getCategory());
                 }
 
-                // 利用cell控件的Tag值来标记cell是否被点击过,因为已经将重用机制取消，cell退出当前界面时就会被销毁，Tag值也就不存在了。
-                // 如果不取消重用，那么将会出现未曾点击就已经添加子视图的效果，再点击的时候会继续添加而不是收回。
+
+                //利用單元控制的標記值就標記為單元格的單元格，而不是單元格的單元格。標記值也就不存在了。
+                //如果不取消重用，那麼將會出現未曾點擊就已經添加子視圖的效果，再點擊的時間會繼續添加而不是收回。
                 if (v.findViewById(R.id.linearLayout).getTag() == null) {
                     index = 1;
                 } else {
                     index = (int)v.findViewById(R.id.linearLayout).getTag();
                 }
 
-                Log.i("yichu", "onClick: " + index);
+                //Log.i("Card", "Card點擊: " + index);
 
-                // close状态: 添加视图
+                // close狀態: 增加內容
                 if (index == 1) {
                     linearLayout.addView(subView);
                     subView.setTag(1000);
                     v.findViewById(R.id.linearLayout).setTag(2);
                 } else {
-                    // open状态： 移除视图
+                    // open狀態： 移除增加內容
                     linearLayout.removeView(v.findViewWithTag(1000));
                     v.findViewById(R.id.linearLayout).setTag(1);
                 }
             }
         });
-
-        // 取消viewHolder的重用机制（很重要）
+        // 取消viewHolder的重用機制（滑出View自動收回成預設狀態index=0 close）
         viewHolder.setIsRecyclable(false);
 
             return viewHolder;
@@ -210,7 +223,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                     Intent intent=new Intent();
                                     intent.setClass(mContext, modify.class); //設定新活動視窗類別
                                     Bundle bundle=new Bundle();
-                                    bundle.putString("id",MainActivity.list.get(i).getId());//將id傳遞到新的活動視窗中 從1開始?
+                                //判斷現在適用哪個list儲存顯示
+                                    if(list.size()==0){
+                                        bundle.putString("id",MainActivity.list.get(i).getId());//將id傳遞到新的活動視窗中 從1開始?
+                                    }
+                                    else{
+                                        bundle.putString("id",list.get(i).getId());//將id傳遞到新的活動視窗中 從1開始?
+                                     }
                                     intent.putExtras(bundle);
                                     mContext.startActivity(intent); //開啟新的活動視窗
                                 break;
@@ -274,7 +293,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
                                             }
                                         }).show();
-
+                                    Toast.makeText(mContext,list.size()+"",Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.mnu_item_done:
                                 final DataModel updae_data=MainActivity.list.get(i);
