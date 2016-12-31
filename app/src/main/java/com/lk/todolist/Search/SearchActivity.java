@@ -57,8 +57,12 @@ public class SearchActivity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         //window.setStatusBarColor(ContextCompat.getColor(this, android.R.color.transparent));
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorBar));
-
+        //window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorBar));
+        //當API大於棉花糖5.0才能更改statue bar顏色
+        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentApiVersion > android.os.Build.VERSION_CODES.LOLLIPOP_MR1){
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorBar));
+        }
         // For not opaque(transparent) color.
         window.getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -111,7 +115,6 @@ public class SearchActivity extends AppCompatActivity {
                 //定義好時間字串的格式
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
                 //將字串轉成Date型
-
                 try {
                     Date  dt1 =sdf.parse(mDate1);
                     Date  dt2 =sdf.parse(mDate2);
