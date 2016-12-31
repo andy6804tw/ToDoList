@@ -7,18 +7,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
     private  Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
-    //public static ArrayList<String> title,date,time;
-    public static ArrayList<DataModel>list;
-    DBAccess access;
-    public static int count=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +24,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-       // WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-        //localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-
 
         tabLayout=(TabLayout)findViewById(R.id.tabLayout);
         viewPager=(ViewPager)findViewById(R.id.viewPager);
@@ -44,33 +35,9 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void onResume() {
+
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        //取得現在時間
-//        SimpleDateFormat f=new SimpleDateFormat("yyyy/MM/dd");
-//        Date curDate =new Date(System.currentTimeMillis());
-//        String str=f.format(curDate);
-//        /*title=new ArrayList<String>();
-//        date=new ArrayList<String>();
-//        time=new ArrayList<String>();*/
-//        count=0;
-//        list=new ArrayList<DataModel>();
-//        access=new DBAccess(this,"schedule",null,1);
-//        //Cursor c=access.getData(null,DBAccess.DATE_FIELD);
-//        Cursor c=access.getData(DBAccess.DATE_FIELD+" ='"+str+"'",DBAccess.TIME_FIELD);
-//        c.moveToFirst();
-//        for(int i=0;i<c.getCount();i++){
-//            /*title.add(c.getString(1)+"");
-//            date.add(c.getString(2)+"");
-//            time.add(c.getString(3)+"");*/
-//            if(c.getString(6).equals("未完成"))
-//                count++;
-//            list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));
-//            c.moveToNext();
-//        }
-//        Toast.makeText(this,str+" "+c.getCount(),Toast.LENGTH_LONG).show();
-//        //設定桌面icon今日代辦事項的個數
-//        ShortcutBadger.applyCount(getApplicationContext(), count);
         super.onResume();
     }
 

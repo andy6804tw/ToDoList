@@ -23,8 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lk.todolist.Search.SearchActivity;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -105,7 +103,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 TextView tvCategory=(TextView)subView.findViewById(R.id.tvCategory);
                 String strDesc="";
                 //viewHolder.getAdapterPosition()取得現在list的位置取得描述資料
-                if(list.size()==0) {
+                /*if(list.size()==0) {
                     if (mContext.toString().contains("MainActivity")) {
                         strDesc=MainActivity.list.get(viewHolder.getAdapterPosition()).getDesc();
                         if(strDesc.equals(""))
@@ -119,13 +117,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         tvDesc.setText("備註: " + strDesc);
                         tvCategory.setText("類別: " + SearchActivity.list.get(viewHolder.getAdapterPosition()).getCategory());
                     }
-                }else{
+                }else{*/
                     strDesc=list.get(viewHolder.getAdapterPosition()).getDesc();
                     if(strDesc.equals(""))
                         strDesc="無";
                     tvDesc.setText("備註: " +strDesc);
                     tvCategory.setText("類別: " + list.get(viewHolder.getAdapterPosition()).getCategory());
-                }
+
 
 
                 //利用單元控制的標記值就標記為單元格的單元格，而不是單元格的單元格。標記值也就不存在了。
@@ -159,22 +157,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
 
-
-        if(list.size()==0){
-            //設定狀態圖片
-            if(MainActivity.list.get(i).getStatue().equals("完成")){
-                viewHolder.ivStatute.setImageResource(R.drawable.done2);
-            }else{
-                viewHolder.ivStatute.setImageResource(R.drawable.undone2);
-            }
-            /*viewHolder.tvTitle.setText(MainActivity.title.get(i));
-            viewHolder.tvDate.setText(MainActivity.date.get(i));
-            viewHolder.tvTime.setText(MainActivity.time.get(i));*/
-            viewHolder.tvTitle.setText(MainActivity.list.get(i).getTitle());
-            viewHolder.tvDate.setText(MainActivity.list.get(i).getDate());
-            viewHolder.tvTime.setText(MainActivity.list.get(i).getTime());
-
-        }else{
             //判斷是否SearchActivity 要變換cardView顏色
             if(mContext.toString().contains("SearchActivity")){
                 viewHolder.card_view.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorSearchCard));
@@ -192,7 +174,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             viewHolder.tvTitle.setText(list.get(i).getTitle());
             viewHolder.tvDate.setText(list.get(i).getDate());
             viewHolder.tvTime.setText(list.get(i).getTime());
-        }
+
         //設定卡片選項item option
         viewHolder.tvOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,12 +208,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                     intent.setClass(mContext, modify.class); //設定新活動視窗類別
                                     Bundle bundle=new Bundle();
                                 //判斷現在適用哪個list儲存顯示
-                                    if(list.size()==0){
-                                        bundle.putString("id",MainActivity.list.get(i).getId());//將id傳遞到新的活動視窗中 從1開始?
-                                    }
-                                    else{
-                                        bundle.putString("id",list.get(i).getId());//將id傳遞到新的活動視窗中 從1開始?
-                                     }
+                                    bundle.putString("id",list.get(i).getId());//將id傳遞到新的活動視窗中 從1開始?
                                     intent.putExtras(bundle);
                                     mContext.startActivity(intent); //開啟新的活動視窗
                                 break;
@@ -245,22 +222,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                 MainActivity.date.remove(i);
                                 MainActivity.time.remove(i);*/
                                 String delete_id;
-                                if(list.size()==0)
-                                    delete_id=MainActivity.list.get(i).getId();
-                                else
-                                    delete_id=list.get(i).getId();
+                                delete_id=list.get(i).getId();
                                 final DataModel remove_data;
-                                if(list.size()==0)
-                                    remove_data=MainActivity.list.get(i);
-                                else
-                                    remove_data=list.get(i);
+                                remove_data=list.get(i);
                                 final int position_delete=viewHolder.getAdapterPosition();
                                 //確定刪除
                                 access.delete(delete_id);
-                                if(list.size()==0)
-                                    MainActivity.list.remove(i);
-                                else
-                                    list.remove(i);
+                                list.remove(i);
                                 if(remove_data.getStatue().equals("未完成"))
                                     ShortcutBadger.applyCount(mContext.getApplicationContext(), count-1);//桌面未完成次數
                                 notifyDataSetChanged();
@@ -361,7 +329,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public boolean onLongClick(View v) {
 
-                Snackbar.make(v, "Click detected on item " + i+" "+MainActivity.list.get(i).getCategory()+" "+MainActivity.list.get(i).getDesc(),
+                Snackbar.make(v, "Click detected on item " + i+" "+list.get(i).getCategory()+" "+list.get(i).getDesc(),
                         Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 return true;
