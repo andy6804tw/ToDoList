@@ -107,6 +107,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.cancel();
+                finish();
             }
         });
         btnYes.setOnClickListener(new View.OnClickListener() {
