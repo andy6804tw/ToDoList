@@ -77,13 +77,13 @@ public class SecondFragment extends Fragment {
             //相當於Fragment的onResume
 
             count_finish=0;
-            for(int i =0;i<MainActivity.list.size();i++){
-                if(MainActivity.list.get(i).getStatue().equals("完成"))
+            for(int i =0;i<HomeFragment.list.size();i++){
+                if(HomeFragment.list.get(i).getStatue().equals("完成"))
                     count_finish++;
             }
-            tvWork.setText("今日工作量: "+MainActivity.list.size());
+            tvWork.setText("今日工作量: "+HomeFragment.list.size());
             tvFinish.setText("完成: "+count_finish);
-            tvUnFinish.setText("未完成: "+(MainActivity.list.size()-count_finish));
+            tvUnFinish.setText("未完成: "+(HomeFragment.list.size()-count_finish));
             mCircleView.spin();
             //Handler.postDelayed
             //Android 才提供 ( android.os.Handler.postDelayed(Runnable r, long delayMillis) )
@@ -95,7 +95,7 @@ public class SecondFragment extends Fragment {
 
                     //過兩秒後要做的事情
                     mCircleView.stopSpinning();
-                    mCircleView.setValue(Float.parseFloat(Double.toString(count_finish*1.0/MainActivity.list.size()*100)));
+                    mCircleView.setValue(Float.parseFloat(Double.toString(count_finish*1.0/HomeFragment.list.size()*100)));
                 }}, 1000);
         }
     }

@@ -7,6 +7,7 @@ package com.lk.todolist;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -24,15 +25,16 @@ import android.widget.Toast;
 
 import com.lk.todolist.Search.SearchActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
-
-import static com.lk.todolist.MainActivity.count;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     ArrayList<DataModel>list=new ArrayList<DataModel>();
+    int count=0;
 
     private  static Context mContext;//給卡片選項用的HomeFragment.class
     public RecyclerAdapter(Context c){
@@ -219,7 +221,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
                         switch (item.getItemId()) {
                             case R.id.mnu_item_modify://修改
-                                Toast.makeText(mContext, "modify"+" "+MainActivity.list.get(i).getId(), Toast.LENGTH_LONG).show();
+                                //Toast.makeText(mContext, "modify"+" "+MainActivity.list.get(i).getId(), Toast.LENGTH_LONG).show();
                                     Intent intent=new Intent();
                                     intent.setClass(mContext, modify.class); //設定新活動視窗類別
                                     Bundle bundle=new Bundle();
@@ -242,12 +244,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                 MainActivity.title.remove(i);
                                 MainActivity.date.remove(i);
                                 MainActivity.time.remove(i);*/
-                                String delete_id=MainActivity.list.get(i).getId();
+                                String delete_id;
+                                if(list.size()==0)
+                                    delete_id=MainActivity.list.get(i).getId();
+                                else
+                                    delete_id=list.get(i).getId();
+                                final DataModel remove_data;
+                                if(list.size()==0)
+                                    remove_data=MainActivity.list.get(i);
+                                else
+                                    remove_data=list.get(i);
                                 final int position_delete=viewHolder.getAdapterPosition();
-                                final DataModel remove_data=MainActivity.list.get(i);
                                 //確定刪除
                                 access.delete(delete_id);
-                                MainActivity.list.remove(i);
+                                if(list.size()==0)
+                                    MainActivity.list.remove(i);
+                                else
+                                    list.remove(i);
                                 if(remove_data.getStatue().equals("未完成"))
                                     ShortcutBadger.applyCount(mContext.getApplicationContext(), count-1);//桌面未完成次數
                                 notifyDataSetChanged();
@@ -269,18 +282,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                                         ArrayList<DataModel>temp_list=new ArrayList<DataModel>();
                                                         remove_data.id=Integer.toString(Integer.parseInt(remove_data.id)+1);
                                                         Toast.makeText(mContext,position_delete+"",Toast.LENGTH_LONG).show();
-                                                        for(int j=0;j<=MainActivity.list.size();j++){
+                                                       /* for(int j=0;j<=list.size();j++){
                                                             if(j==position_delete)
                                                                 temp_list.add(remove_data);
                                                             else if(j>position_delete)
-                                                                temp_list.add(MainActivity.list.get(j-1));
+                                                                temp_list.add(list.get(j-1));
                                                             else
-                                                                temp_list.add(MainActivity.list.get(j));
+                                                                temp_list.add(list.get(j));
                                                         }
-                                                        MainActivity.list=temp_list;
+                                                        if(list.size()==0)
+                                                            MainActivity.list=temp_list;
+                                                        else
+                                                            list=temp_list;
                                                         if(remove_data.getStatue().equals("未完成"))
-                                                            ShortcutBadger.applyCount(mContext.getApplicationContext(), count);//桌面未完成次數
+                                                            ShortcutBadger.applyCount(mContext.getApplicationContext(), count);//桌面未完成次數*/
+                                                        listInit();
                                                         notifyDataSetChanged();//監聽list是否有變動
+
                                                     }
                                                 });
                                                 dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -293,15 +311,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
                                             }
                                         }).show();
-                                    Toast.makeText(mContext,list.size()+"",Toast.LENGTH_SHORT).show();
+                                        listInit();
                                 break;
                             case R.id.mnu_item_done:
-                                final DataModel updae_data=MainActivity.list.get(i);
-                                //確定刪除
-                                MainActivity.list.get(i).statue="完成";
-                                ShortcutBadger.applyCount(mContext.getApplicationContext(), MainActivity.count-1);//桌面未完成次數
+                                final DataModel updae_data=list.get(i);
                                 notifyDataSetChanged();
                                 access.update(updae_data.getTitle(),updae_data.getDate(),updae_data.getTime(),updae_data.getCategory(),updae_data.getDesc(),"完成",DBAccess.ID_FIELD+" ="+updae_data.getId());
+                               // list.get(i).statue="完成";
+                                listInit();
                                 Snackbar.make(v, "事件完成" ,
                                         Snackbar.LENGTH_LONG)
                                         .setAction("取消完成", new View.OnClickListener() {
@@ -313,11 +330,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                                 dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-
-                                                        MainActivity.list.get(i).statue="未完成";
-                                                        ShortcutBadger.applyCount(mContext.getApplicationContext(), MainActivity.count);//桌面未完成次數
-                                                        notifyDataSetChanged();
                                                         access.update(updae_data.getTitle(),updae_data.getDate(),updae_data.getTime(),updae_data.getCategory(),updae_data.getDesc(),"未完成",DBAccess.ID_FIELD+" ="+updae_data.getId());
+                                                        //list.get(i).statue="未完成";
+                                                        listInit();
+                                                        notifyDataSetChanged();
                                                     }
                                                 });
                                                 dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -356,12 +372,40 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        if(list.size()==0)
+       /* if(list.size()==0)
             return MainActivity.list.size();
-        else
+        else*/
             return list.size();
     }
-
+    public void listInit(){
+        Toast.makeText(mContext,"進入初始化",Toast.LENGTH_SHORT).show();
+        DBAccess access;
+        count=0;
+        //取得現在時間
+        SimpleDateFormat f=new SimpleDateFormat("yyyy/MM/dd");
+        Date curDate =new Date(System.currentTimeMillis());
+        String str=f.format(curDate);
+        /*title=new ArrayList<String>();
+        date=new ArrayList<String>();
+        time=new ArrayList<String>();*/
+        count=0;
+        list=new ArrayList<DataModel>();
+        access=new DBAccess(mContext,"schedule",null,1);
+        //Cursor c=access.getData(null,DBAccess.DATE_FIELD);
+        Cursor c=access.getData(DBAccess.DATE_FIELD+" ='"+str+"'",DBAccess.TIME_FIELD);
+        c.moveToFirst();
+        for(int i=0;i<c.getCount();i++){
+            /*title.add(c.getString(1)+"");
+            date.add(c.getString(2)+"");
+            time.add(c.getString(3)+"");*/
+            if(c.getString(6).equals("未完成"))
+                count++;
+            list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));
+            c.moveToNext();
+        }
+        //設定桌面icon今日代辦事項的個數
+        ShortcutBadger.applyCount(mContext.getApplicationContext(), count);
+    }
 
 
 }

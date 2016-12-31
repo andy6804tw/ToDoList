@@ -1,19 +1,13 @@
 package com.lk.todolist;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
-import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,29 +47,30 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         //取得現在時間
-        SimpleDateFormat f=new SimpleDateFormat("yyyy/MM/dd");
-        Date curDate =new Date(System.currentTimeMillis());
-        String str=f.format(curDate);
-        /*title=new ArrayList<String>();
-        date=new ArrayList<String>();
-        time=new ArrayList<String>();*/
-        count=0;
-        list=new ArrayList<DataModel>();
-        access=new DBAccess(this,"schedule",null,1);
-        //Cursor c=access.getData(null,DBAccess.DATE_FIELD);
-        Cursor c=access.getData(DBAccess.DATE_FIELD+" ='"+str+"'",DBAccess.TIME_FIELD);
-        c.moveToFirst();
-        for(int i=0;i<c.getCount();i++){
-            /*title.add(c.getString(1)+"");
-            date.add(c.getString(2)+"");
-            time.add(c.getString(3)+"");*/
-            if(c.getString(6).equals("未完成"))
-                count++;
-            list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));
-            c.moveToNext();
-        }Toast.makeText(this,str+" "+c.getCount(),Toast.LENGTH_LONG).show();
-        //設定桌面icon今日代辦事項的個數
-        ShortcutBadger.applyCount(getApplicationContext(), count);
+//        SimpleDateFormat f=new SimpleDateFormat("yyyy/MM/dd");
+//        Date curDate =new Date(System.currentTimeMillis());
+//        String str=f.format(curDate);
+//        /*title=new ArrayList<String>();
+//        date=new ArrayList<String>();
+//        time=new ArrayList<String>();*/
+//        count=0;
+//        list=new ArrayList<DataModel>();
+//        access=new DBAccess(this,"schedule",null,1);
+//        //Cursor c=access.getData(null,DBAccess.DATE_FIELD);
+//        Cursor c=access.getData(DBAccess.DATE_FIELD+" ='"+str+"'",DBAccess.TIME_FIELD);
+//        c.moveToFirst();
+//        for(int i=0;i<c.getCount();i++){
+//            /*title.add(c.getString(1)+"");
+//            date.add(c.getString(2)+"");
+//            time.add(c.getString(3)+"");*/
+//            if(c.getString(6).equals("未完成"))
+//                count++;
+//            list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));
+//            c.moveToNext();
+//        }
+//        Toast.makeText(this,str+" "+c.getCount(),Toast.LENGTH_LONG).show();
+//        //設定桌面icon今日代辦事項的個數
+//        ShortcutBadger.applyCount(getApplicationContext(), count);
         super.onResume();
     }
 
