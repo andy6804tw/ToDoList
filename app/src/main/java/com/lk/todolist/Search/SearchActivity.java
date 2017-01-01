@@ -43,7 +43,7 @@ public class SearchActivity extends AppCompatActivity {
     DateFormat formatDateTime;
     Calendar dateTime ;
     TextView tvDate1,tvDate2;
-    String mDate1,mDate2;
+    String mDate1="",mDate2="";
     long mTime1=0,mTime2=0;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -114,49 +114,56 @@ public class SearchActivity extends AppCompatActivity {
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //定義好時間字串的格式
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                //將字串轉成Date型
-                try {
-                    Date  dt1 =sdf.parse(mDate1);
-                    Date  dt2 =sdf.parse(mDate2);
-                    mTime1=dt1.getTime();
-                    mTime2=dt2.getTime();
-                    Toast.makeText(SearchActivity.this, dt1.getTime()+" "+mDate2,Toast.LENGTH_SHORT).show();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
 
-                list=new ArrayList<DataModel>();
-                access=new DBAccess(SearchActivity.this,"schedule",null,1);
-                //Cursor c=access.getData(null,DBAccess.DATE_FIELD);
-                Cursor c=access.getData(null,DBAccess.DATE_FIELD);
-                c.moveToFirst();
-                for(int i=0;i<c.getCount();i++){
-            /*title.add(c.getString(1)+"");
-            date.add(c.getString(2)+"");
-            time.add(c.getString(3)+"");*/
-                    long dataTime=0;
+                if((mDate1.equals("")||mDate2.equals("")))
+                    Toast.makeText(SearchActivity.this,"請正確選擇日期哦!",Toast.LENGTH_SHORT).show();
+                else{
+                    //定義好時間字串的格式
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    //將字串轉成Date型
                     try {
-                        Date  dt =sdf.parse(c.getString(2));
-                        dataTime=dt.getTime();
+                        Date dt1 =sdf.parse(mDate1);
+                        Date  dt2 =sdf.parse(mDate2);
+                        mTime1=dt1.getTime();
+                        mTime2=dt2.getTime();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    if(dataTime>=mTime1&&dataTime<=mTime2){
-                        list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));
+                    if(mTime1>mTime2)
+                        Toast.makeText(SearchActivity.this,"請正確選擇日期哦!",Toast.LENGTH_SHORT).show();
+                    else{
+                        list=new ArrayList<DataModel>();
+                        access=new DBAccess(SearchActivity.this,"schedule",null,1);
+                        //Cursor c=access.getData(null,DBAccess.DATE_FIELD);
+                        Cursor c=access.getData(null,DBAccess.DATE_FIELD);
+                        c.moveToFirst();
+                        for(int i=0;i<c.getCount();i++){
+                            /*title.add(c.getString(1)+"");
+                            date.add(c.getString(2)+"");
+                            time.add(c.getString(3)+"");*/
+                            long dataTime=0;
+                            try {
+                                Date  dt =sdf.parse(c.getString(2));
+                                dataTime=dt.getTime();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            if(dataTime>=mTime1&&dataTime<=mTime2){
+                                list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));
+                            }
+                            c.moveToNext();
+                        }
+
+                        recyclerView =(RecyclerView) findViewById(R.id.recycler_view);
+                        layoutManager = new LinearLayoutManager(SearchActivity.this);
+                        recyclerView.setLayoutManager(layoutManager);
+                        adapter = new RecyclerAdapter(list,SearchActivity.this);
+                        recyclerView.setAdapter(adapter);
+                        //adapter.notifyDataSetChanged();
+
+                        dialog.cancel();
                     }
-                    c.moveToNext();
                 }
-
-                recyclerView =(RecyclerView) findViewById(R.id.recycler_view);
-                layoutManager = new LinearLayoutManager(SearchActivity.this);
-                recyclerView.setLayoutManager(layoutManager);
-                adapter = new RecyclerAdapter(list,SearchActivity.this);
-                recyclerView.setAdapter(adapter);
-                //adapter.notifyDataSetChanged();
-
-                dialog.cancel();
 
             }
         });
