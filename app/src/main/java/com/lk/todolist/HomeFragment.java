@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment {
 
         final MenuItem item = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(queryListener);
+        searchView.setOnQueryTextListener(queryListener);//QueryListener的監聽事件
 
     }
     final private android.support.v7.widget.SearchView.OnQueryTextListener queryListener = new android.support.v7.widget.SearchView.OnQueryTextListener() {

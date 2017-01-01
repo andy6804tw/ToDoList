@@ -37,47 +37,47 @@ public class FlowLayout extends ViewGroup {
         int width = 0;
         int height = 0;
 
-        // 记录每一行的宽度与高度
+        // 紀錄每一行的寬度與高度
         int lineWidth = 0;
         int lineHeight = 0;
 
-        // 得到内部元素的个数
+        // 得到內部元素的個數
         int cCount = getChildCount();
 
         for (int i = 0; i < cCount; i++) {
             View child = getChildAt(i);
-            // 测量子View的宽和高
+            // 測量子View的宽和高
             measureChild(child, widthMeasureSpec, heightMeasureSpec);
             // 得到LayoutParams
             MarginLayoutParams lp = (MarginLayoutParams) child
                     .getLayoutParams();
 
-            // 子View占据的宽度
+            // 子View佔據的宽度
             int childWidth = child.getMeasuredWidth() + lp.leftMargin
                     + lp.rightMargin;
-            // 子View占据的高度
+            // 子View佔據的高度
             int childHeight = child.getMeasuredHeight() + lp.topMargin
                     + lp.bottomMargin;
 
-            // 换行
+            // 換行
             if (lineWidth + childWidth > sizeWidth - getPaddingLeft()
                     - getPaddingRight()) {
-                // 对比得到最大的宽度
+                // 對比得到最大的寬度
                 width = Math.max(width, lineWidth);
                 // 重置lineWidth
                 lineWidth = childWidth;
-                // 记录行高
+                // 紀錄行高
                 height += lineHeight;
                 lineHeight = childHeight;
             } else
             // 未换行
             {
-                // 叠加行宽
+                // 疊加行寬
                 lineWidth += childWidth;
-                // 得到当前行最大的高度
+                // 得到當前行最大的高度
                 lineHeight = Math.max(lineHeight, childHeight);
             }
-            // 最后一个控件
+            // 最後一個控件
             if (i == cCount - 1) {
                 width = Math.max(lineWidth, width);
                 height += lineHeight;
@@ -107,7 +107,7 @@ public class FlowLayout extends ViewGroup {
         mAllViews.clear();
         mLineHeight.clear();
 
-        // 当前ViewGroup的宽度
+        // 當前ViewGroup的寬度
         int width = getWidth();
 
         int lineWidth = 0;
@@ -128,15 +128,15 @@ public class FlowLayout extends ViewGroup {
             // 如果需要换行
             if (childWidth + lineWidth + lp.leftMargin + lp.rightMargin > width
                     - getPaddingLeft() - getPaddingRight()) {
-                // 记录LineHeight
+                // 紀錄LineHeight
                 mLineHeight.add(lineHeight);
-                // 记录当前行的Views
+                // 紀錄當前行的Views
                 mAllViews.add(lineViews);
 
-                // 重置我们的行宽和行高
+                // 重置我們的行寬和行高
                 lineWidth = 0;
                 lineHeight = childHeight + lp.topMargin + lp.bottomMargin;
-                // 重置我们的View集合
+                // 重置我們的View集合
                 lineViews = new ArrayList<View>();
             }
             lineWidth += childWidth + lp.leftMargin + lp.rightMargin;
@@ -145,26 +145,26 @@ public class FlowLayout extends ViewGroup {
             lineViews.add(child);
 
         }// for end
-        // 处理最后一行
+        // 處理最後一行
         mLineHeight.add(lineHeight);
         mAllViews.add(lineViews);
 
-        // 设置子View的位置
+        // 設置子View的位置
 
         int left = getPaddingLeft();
         int top = getPaddingTop();
 
-        // 行数
+        // 行數
         int lineNum = mAllViews.size();
 
         for (int i = 0; i < lineNum; i++) {
-            // 当前行的所有的View
+            // 當前行的所有的View
             lineViews = mAllViews.get(i);
             lineHeight = mLineHeight.get(i);
 
             for (int j = 0; j < lineViews.size(); j++) {
                 View child = lineViews.get(j);
-                // 判断child的状态
+                // 判斷child的狀態
                 if (child.getVisibility() == View.GONE) {
                     continue;
                 }
@@ -177,7 +177,7 @@ public class FlowLayout extends ViewGroup {
                 int rc = lc + child.getMeasuredWidth();
                 int bc = tc + child.getMeasuredHeight();
 
-                // 为子View进行布局
+                // 為子View進行布局
                 child.layout(lc, tc, rc, bc);
 
                 left += child.getMeasuredWidth() + lp.leftMargin
@@ -190,8 +190,8 @@ public class FlowLayout extends ViewGroup {
     }
 
     /**
-     * 与当前ViewGroup对应的LayoutParams
-     */
+      與當前ViewGroup對應的LayoutParams
+     **/
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new MarginLayoutParams(getContext(), attrs);

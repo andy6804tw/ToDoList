@@ -207,7 +207,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                     Intent intent=new Intent();
                                     intent.setClass(mContext, modify.class); //設定新活動視窗類別
                                     Bundle bundle=new Bundle();
-                                //判斷現在適用哪個list儲存顯示
                                     bundle.putString("id",list.get(i).getId());//將id傳遞到新的活動視窗中 從1開始?
                                     intent.putExtras(bundle);
                                     mContext.startActivity(intent); //開啟新的活動視窗

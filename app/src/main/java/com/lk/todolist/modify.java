@@ -26,7 +26,7 @@ public class modify extends AppCompatActivity {
         Bundle bundle=getIntent().getExtras();
         id=bundle.getString("id","0");
         Cursor c=access.getData(DBAccess.ID_FIELD+" ="+id, null);//資料查詢，條件為_id等於上一個活動視窗傳遞過來的資料
-        c.moveToFirst();//將指標一道第一筆
+        c.moveToFirst();//將指標一到第一筆
 
         edtTitle.setText(c.getString(1));//得到ID欄位的資料1
         edtDate.setText(c.getString(2));

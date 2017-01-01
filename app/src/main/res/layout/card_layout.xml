@@ -30,7 +30,7 @@
                 android:layout_height="match_parent" >
 
                 <ImageView
-                    card_view:srcCompat="@drawable/undone"
+                    card_view:srcCompat="@drawable/undone2"
                     android:id="@+id/ivStatute"
                     android:layout_marginTop="8dp"
                     android:layout_marginLeft="4dp"

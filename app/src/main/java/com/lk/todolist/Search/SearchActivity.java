@@ -78,7 +78,7 @@ public class SearchActivity extends AppCompatActivity {
         final Dialog dialog=new Dialog(this);
         dialog.setTitle("查詢歷史");
         dialog.setContentView(R.layout.search_dialog);
-        dialog.setCancelable(false);
+        dialog.setCancelable(false);//防止觸按旁邊消失
         Button btnYes=(Button)dialog.findViewById(R.id.btnYes);
         Button btnNo=(Button)dialog.findViewById(R.id.btnNo);
 
