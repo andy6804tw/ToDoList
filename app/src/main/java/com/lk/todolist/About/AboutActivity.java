@@ -28,9 +28,9 @@ public class AboutActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         //window.setStatusBarColor(ContextCompat.getColor(this, android.R.color.transparent));
         //window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorBar));
-        //當API大於棉花糖5.0才能更改statue bar顏色
+        //當API大於棉花糖5.0才能更改status bar顏色
         int currentApiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentApiVersion > android.os.Build.VERSION_CODES.LOLLIPOP_MR1){
+        if (currentApiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1){
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorBar));
         }
         // For not opaque(transparent) color.

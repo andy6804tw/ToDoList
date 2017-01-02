@@ -8,18 +8,6 @@ android:layout_height="match_parent"
 tools:context="com.lk.todolist.AddEvent"
 android:orientation="vertical">
 
-    <Button
-        android:text="新增"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/新增"
-        android:onClick="addData"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        />
-
-
     <LinearLayout
          android:orientation="vertical"
          android:layout_width="match_parent"
@@ -28,7 +16,7 @@ android:orientation="vertical">
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@drawable/bg15">
+        >
 
 
         <ImageView
@@ -49,7 +37,8 @@ android:orientation="vertical">
                 android:layout_width="171dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvDate"
-                android:hint="請選擇日期..."
+                android:hint="請選擇日期"
+                android:layout_gravity="center"
                 android:textSize="20sp"
                 android:textColor="#000000"
                 android:background="@drawable/text_view_border"
@@ -63,7 +52,8 @@ android:orientation="vertical">
                 android:id="@+id/tvTime"
                 android:textColor="#000000"
                 android:textSize="20sp"
-                android:hint="請選擇時間..."
+                android:hint="請選擇時間"
+                android:gravity="center"
                 android:background="@drawable/text_view_border"
                 android:layout_marginRight="5dp"
                 android:paddingLeft="20dp"
@@ -80,6 +70,11 @@ android:orientation="vertical">
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:inputType="textPersonName"
+             android:background="@drawable/input_outlin"
+             android:layout_centerHorizontal="true"
+             android:layout_marginLeft="20dp"
+             android:layout_marginRight="20dp"
+             android:padding="15dp"
              android:ems="10"
              android:id="@+id/edtTitle"
              android:hint="標題" />
@@ -98,9 +93,14 @@ android:orientation="vertical">
                  android:ems="10"
                  android:id="@+id/edtCategory"
                  android:hint="類別"
+                android:background="@drawable/input_outlin"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="15dp"
                 android:layout_below="@+id/edtTitle"
-                 android:layout_alignLeft="@+id/edtTitle"
-                 android:layout_alignStart="@+id/edtTitle" />
+                android:layout_alignLeft="@+id/edtTitle"
+                android:layout_alignStart="@+id/edtTitle" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -115,6 +115,11 @@ android:orientation="vertical">
                 android:ems="10"
                 android:id="@+id/edtDesc"
                 android:hint="描述"
+                android:background="@drawable/input_outlin"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="15dp"
                 android:inputType="textMultiLine"
                 android:layout_below="@+id/tvTime"
                 android:layout_alignParentLeft="true"
@@ -122,5 +127,17 @@ android:orientation="vertical">
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
+    <Button
+        android:text="新增"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/新增"
+        android:onClick="addData"
+        android:textSize="15dp"
+        android:background="#333333"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        />
 
 </RelativeLayout>
