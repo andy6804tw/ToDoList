@@ -127,16 +127,6 @@ public class HomeFragment extends Fragment {
             //初始化
             listInit();
             newText=newText.toLowerCase();
-           /* ArrayList<String> Mylist=new ArrayList<String>();
-            for(String s:MainActivity.title){
-                if(s.contains(newText)){
-                    Mylist.add(s);
-                }
-
-            }*/
-
-            //list=new ArrayList<String>();
-            //index=new ArrayList<Integer>();
             //逐一比對搜尋
             ArrayList<DataModel>myList=new ArrayList<DataModel>();
             for(int i=0;i<list.size();i++){
@@ -147,13 +137,6 @@ public class HomeFragment extends Fragment {
             }
             adapter = new RecyclerAdapter(myList,getActivity());
             recyclerView.setAdapter(adapter);
-
-               /* RecyclerAdapter adapter;
-                adapter = new RecyclerAdapter(list,getActivity());
-                adapter.setFilter(list);*/
-                //recyclerView.setAdapter(adapter);
-            //adapter.notifyDataSetChanged();
-            Toast.makeText(getActivity(),list.size()+"",Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -166,7 +149,6 @@ public class HomeFragment extends Fragment {
 
     public void initData(){
         LayoutInflater mInflater = LayoutInflater.from(getActivity());
-        //listInit();
         for (int i = 0; i < mVals.length; i++) {
             final TextView tv = (TextView) mInflater.inflate(R.layout.textview, mFlowLayout, false);
             tv.setText(mVals[i]);
@@ -175,7 +157,6 @@ public class HomeFragment extends Fragment {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(),tv.getText().toString()+"",Toast.LENGTH_SHORT).show();
                     listInit();
                     myList=new ArrayList<DataModel>();
                     for(int i=0;i<list.size();i++){

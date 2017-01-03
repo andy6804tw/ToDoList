@@ -35,6 +35,8 @@ public class DBAccess extends SQLiteOpenHelper {
                 date text,
                 time text,
                 catrgory text,
+                desc text,
+                statue text
             }
          */
         String sql="create table "+TABLE_NAME+"("+ID_FIELD+" integer primary key autoincrement,"

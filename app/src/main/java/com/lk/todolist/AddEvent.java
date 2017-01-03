@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -111,16 +112,22 @@ public class AddEvent extends AppCompatActivity {
         edtTitle=(EditText)findViewById(R.id.edtTitle);
         edtCategory=(EditText)findViewById(R.id.edtCategory);
         edtDesc=(EditText)findViewById(R.id.edtDesc);
+        //Log.e("Error",tvTime.getText().toString());
+        if(TextUtils.isEmpty(tvDate.getText().toString()))
+            Toast.makeText(AddEvent.this,"請正確選擇日期哦!",Toast.LENGTH_LONG).show();
+        else if(TextUtils.isEmpty(tvTime.getText().toString()))
+            Toast.makeText(AddEvent.this,"請正確選擇時間哦!",Toast.LENGTH_LONG).show();
+        else{
+            long result =access.add(edtTitle.getText().toString(),tvDate.getText().toString(),tvTime.getText().toString(),edtCategory.getText().toString(),edtDesc.getText().toString(),"未完成");
+            if(result>=0){
+                Toast.makeText(AddEvent.this,"成功!",Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(AddEvent.this,"失敗!",Toast.LENGTH_LONG).show();
+            }
+            edtTitle.setText("");tvDate.setText("");tvTime.setText("");edtCategory.setText("");edtDesc.setText("");
 
-
-        long result =access.add(edtTitle.getText().toString(),tvDate.getText().toString(),tvTime.getText().toString(),edtCategory.getText().toString(),edtDesc.getText().toString(),"未完成");
-        if(result>=0){
-            Toast.makeText(AddEvent.this,"成功!",Toast.LENGTH_LONG).show();
-            finish();
-        }else{
-            Toast.makeText(AddEvent.this,"失敗!",Toast.LENGTH_LONG).show();
         }
-        edtTitle.setText("");tvDate.setText("");tvTime.setText("");edtCategory.setText("");edtDesc.setText("");
 
     }
 

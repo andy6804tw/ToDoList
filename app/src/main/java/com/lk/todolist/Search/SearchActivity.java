@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -115,7 +116,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if((mDate1.equals("")||mDate2.equals("")))
+                if((TextUtils.isEmpty(mDate1)||TextUtils.isEmpty(mDate2)))
                     Toast.makeText(SearchActivity.this,"請正確選擇日期哦!",Toast.LENGTH_SHORT).show();
                 else{
                     //定義好時間字串的格式

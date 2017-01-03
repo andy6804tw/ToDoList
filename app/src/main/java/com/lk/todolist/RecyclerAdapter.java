@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -102,22 +101,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 TextView tvDesc=(TextView)subView.findViewById(R.id.tvDesc);
                 TextView tvCategory=(TextView)subView.findViewById(R.id.tvCategory);
                 String strDesc="";
-                //viewHolder.getAdapterPosition()取得現在list的位置取得描述資料
-                /*if(list.size()==0) {
-                    if (mContext.toString().contains("MainActivity")) {
-                        strDesc=MainActivity.list.get(viewHolder.getAdapterPosition()).getDesc();
-                        if(strDesc.equals(""))
-                            strDesc="無";
-                        tvDesc.setText("備註: " + strDesc);
-                        tvCategory.setText("類別: " + MainActivity.list.get(viewHolder.getAdapterPosition()).getCategory());
-                    } else {
-                        strDesc=SearchActivity.list.get(viewHolder.getAdapterPosition()).getDesc();
-                        if(strDesc.equals(""))
-                            strDesc="無";
-                        tvDesc.setText("備註: " + strDesc);
-                        tvCategory.setText("類別: " + SearchActivity.list.get(viewHolder.getAdapterPosition()).getCategory());
-                    }
-                }else{*/
                     strDesc=list.get(viewHolder.getAdapterPosition()).getDesc();
                     if(strDesc.equals(""))
                         strDesc="無";
@@ -168,9 +151,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     viewHolder.ivStatute.setImageResource(R.drawable.undone2);
 
             }
-            /*viewHolder.tvTitle.setText(MainActivity.title.get(HomeFragment.index.get(i)));
-            viewHolder.tvDate.setText(MainActivity.date.get(HomeFragment.index.get(i)));
-            viewHolder.tvTime.setText(MainActivity.time.get(HomeFragment.index.get(i)));*/
             viewHolder.tvTitle.setText(list.get(i).getTitle());
             viewHolder.tvDate.setText(list.get(i).getDate());
             viewHolder.tvTime.setText(list.get(i).getTime());
@@ -188,18 +168,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     public boolean onMenuItemClick(MenuItem item) {
 
                         final DBAccess access =new DBAccess(mContext,"schedule",null,1);
-                        /*int id=0;
-                        Cursor c=access.getData(null, null);//資料查詢，無條件(按照資料放入順序排列、原始順序)
-                        c.moveToFirst();
-                        z://找出原始id順序
-                        for(id=1;id<=c.getCount();id++){
-                            if(c.getString(1).equals(MainActivity.title.get(i))&&c.getString(2).equals(MainActivity.date.get(i))&&c.getString(3).equals(MainActivity.time.get(i))){
-                                Toast.makeText(mContext, "Saved"+" "+id, Toast.LENGTH_LONG).show();
-                                id=Integer.parseInt(c.getString(0));//取得id值(偷吃步作法) *若曾經刪除也算一筆紀錄 所以不能用Cursor的索引值當id
-                                break z;
-                            }
-                            c.moveToNext();
-                        }*/
 
                         switch (item.getItemId()) {
                             case R.id.mnu_item_modify://修改
@@ -212,14 +180,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                     mContext.startActivity(intent); //開啟新的活動視窗
                                 break;
                             case R.id.mnu_item_delete://刪除
-                                //Delete item
-                               //access.delete(MainActivity.list.get(i).getId());
-                               /* final String title=MainActivity.title.get(i);
-                                final String date=MainActivity.date.get(i);
-                                final String time=MainActivity.time.get(i);
-                                MainActivity.title.remove(i);
-                                MainActivity.date.remove(i);
-                                MainActivity.time.remove(i);*/
+
                                 String delete_id;
                                 delete_id=list.get(i).getId();
                                 final DataModel remove_data;
@@ -243,26 +204,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
 
-                                                        //DBAccess access=new DBAccess(mContext,"schedule",null,1);
-                                                        //access.add(remove_data.getTitle(),remove_data.getDate(),remove_data.getTime(),remove_data.getCategory(),remove_data.getDesc(),remove_data.getStatue());
                                                         access.add(remove_data.getTitle(),remove_data.getDate(),remove_data.getTime(),remove_data.getCategory(),remove_data.getDesc(),remove_data.getStatue());
                                                         ArrayList<DataModel>temp_list=new ArrayList<DataModel>();
                                                         remove_data.id=Integer.toString(Integer.parseInt(remove_data.id)+1);
-                                                        Toast.makeText(mContext,position_delete+"",Toast.LENGTH_LONG).show();
-                                                       /* for(int j=0;j<=list.size();j++){
-                                                            if(j==position_delete)
-                                                                temp_list.add(remove_data);
-                                                            else if(j>position_delete)
-                                                                temp_list.add(list.get(j-1));
-                                                            else
-                                                                temp_list.add(list.get(j));
-                                                        }
-                                                        if(list.size()==0)
-                                                            MainActivity.list=temp_list;
-                                                        else
-                                                            list=temp_list;
-                                                        if(remove_data.getStatue().equals("未完成"))
-                                                            ShortcutBadger.applyCount(mContext.getApplicationContext(), count);//桌面未完成次數*/
                                                         listInit();
                                                         notifyDataSetChanged();//監聽list是否有變動
 
@@ -328,9 +272,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public boolean onLongClick(View v) {
 
-                Snackbar.make(v, "Click detected on item " + i+" "+list.get(i).getCategory()+" "+list.get(i).getDesc(),
+               /* Snackbar.make(v, "Click detected on item " + i+" "+list.get(i).getCategory()+" "+list.get(i).getDesc(),
                         Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                        .setAction("Action", null).show();*/
                 return true;
             }
         });
@@ -339,32 +283,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-       /* if(list.size()==0)
-            return MainActivity.list.size();
-        else*/
             return list.size();
     }
     public void listInit(){
-        Toast.makeText(mContext,"進入初始化",Toast.LENGTH_SHORT).show();
         DBAccess access;
         count=0;
         //取得現在時間
         SimpleDateFormat f=new SimpleDateFormat("yyyy/MM/dd");
         Date curDate =new Date(System.currentTimeMillis());
         String str=f.format(curDate);
-        /*title=new ArrayList<String>();
-        date=new ArrayList<String>();
-        time=new ArrayList<String>();*/
         count=0;
         list=new ArrayList<DataModel>();
         access=new DBAccess(mContext,"schedule",null,1);
-        //Cursor c=access.getData(null,DBAccess.DATE_FIELD);
         Cursor c=access.getData(DBAccess.DATE_FIELD+" ='"+str+"'",DBAccess.TIME_FIELD);
         c.moveToFirst();
         for(int i=0;i<c.getCount();i++){
-            /*title.add(c.getString(1)+"");
-            date.add(c.getString(2)+"");
-            time.add(c.getString(3)+"");*/
             if(c.getString(6).equals("未完成"))
                 count++;
             list.add(new DataModel(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6)));

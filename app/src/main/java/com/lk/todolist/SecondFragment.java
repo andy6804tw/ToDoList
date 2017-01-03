@@ -17,12 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import at.grabner.circleprogress.AnimationState;
 import at.grabner.circleprogress.AnimationStateChangedListener;
 import at.grabner.circleprogress.CircleProgressView;
 import at.grabner.circleprogress.TextMode;
+
+import static com.lk.todolist.HomeFragment.count;
 
 
 /**
@@ -160,15 +164,25 @@ public class SecondFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             //相當於Fragment的onResume
-
+            DBAccess access;
             count_finish=0;
-            for(int i =0;i<HomeFragment.list.size();i++){
-                if(HomeFragment.list.get(i).getStatue().equals("完成"))
+            //取得現在時間
+            SimpleDateFormat f=new SimpleDateFormat("yyyy/MM/dd");
+            Date curDate =new Date(System.currentTimeMillis());
+            String str=f.format(curDate);
+            count=0;
+            access=new DBAccess(getActivity(),"schedule",null,1);
+            //Cursor c=access.getData(null,DBAccess.DATE_FIELD);
+            Cursor c=access.getData(DBAccess.DATE_FIELD+" ='"+str+"'",DBAccess.TIME_FIELD);
+            c.moveToFirst();
+            for(int i=0;i<c.getCount();i++){
+                if(c.getString(6).equals("完成"))
                     count_finish++;
+                c.moveToNext();
             }
-            tvWork.setText("今日工作量: "+HomeFragment.list.size());
+            tvWork.setText("今日工作量: "+c.getCount());
             tvFinish.setText("完成: "+count_finish);
-            tvUnFinish.setText("未完成: "+(HomeFragment.list.size()-count_finish));
+            tvUnFinish.setText("未完成: "+(c.getCount()-count_finish));
             mCircleView.spin();
             //Handler.postDelayed
             //Android 才提供 ( android.os.Handler.postDelayed(Runnable r, long delayMillis) )
