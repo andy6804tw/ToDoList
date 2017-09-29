@@ -16,5 +16,8 @@ GitHub：https://github.com/andy6804tw/ToDoList
 >*	可以搜尋包含某個關鍵字的代辦事項
 >*	顯示過去一段時間，每天所完成的代辦事項個數
 
-<img src="Screenshot/圖片 1.png" width="ˇ100">
-<img src="Screenshot/圖片 3.png" width="ˇ100">
+
+<figure class="half">
+<img src="Screenshot/圖片 1.png" width="250">
+<img src="Screenshot/圖片 3.png" width="250">
+ </figure>
